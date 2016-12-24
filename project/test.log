@@ -1,0 +1,220 @@
+  box:  fr: -1.691,-1.691 to 1.691,1.691 a: pt: 0.579, 1.589 b: pt: 0.579, 1.589 rad: 1.691
+   st ang: 70.000 end ang: 70.000 a_o_dif: 1.589 b_o_dif: 1.589
+test tan a.y/a.x: 2.747  test tan b.y/b.x: 2.747  atan a: 70.000  atan b: 70.000
+
+  box:  fr: -2.000,-2.000 to 2.000,2.000 a: pt: 1.922, -0.555 b: pt: 1.941, -0.480 rad: 2.000
+   st ang: 343.901 end ang: 346.099 a_o_dif: -0.555 b_o_dif: -0.480
+test tan a.y/a.x: -0.289  test tan b.y/b.x: -0.247  atan a: 343.901  atan b: 346.099
+
+  box:  fr: -1.600,-1.600 to 1.600,1.600 a: pt: 1.576, -0.278 b: pt: 1.600, -0.000 rad: 1.600
+   st ang: 350.000 end ang: 360.000 a_o_dif: -0.278 b_o_dif: -0.000
+test tan a.y/a.x: -0.176  test tan b.y/b.x: -0.000  atan a: 350.000  atan b: 360.000
+
+  box:  fr: -1.691,-1.691 to 1.691,1.691 a: pt: 1.087, 1.296 b: pt: 1.087, 1.296 rad: 1.691
+   st ang: 50.000 end ang: 50.000 a_o_dif: 1.296 b_o_dif: 1.296
+test tan a.y/a.x: 1.192  test tan b.y/b.x: 1.192  atan a: 50.000  atan b: 50.000
+
+  box:  fr: -2.000,-2.000 to 2.000,2.000 a: pt: 1.616, -1.178 b: pt: 1.660, -1.116 rad: 2.000
+   st ang: 323.901 end ang: 326.099 a_o_dif: -1.178 b_o_dif: -1.116
+test tan a.y/a.x: -0.729  test tan b.y/b.x: -0.672  atan a: 323.901  atan b: 326.099
+
+  box:  fr: -1.600,-1.600 to 1.600,1.600 a: pt: 1.386, -0.800 b: pt: 1.504, -0.547 rad: 1.600
+   st ang: 330.000 end ang: 340.000 a_o_dif: -0.800 b_o_dif: -0.547
+test tan a.y/a.x: -0.577  test tan b.y/b.x: -0.364  atan a: 330.000  atan b: 340.000
+
+  box:  fr: -1.691,-1.691 to 1.691,1.691 a: pt: 1.465, 0.846 b: pt: 1.465, 0.846 rad: 1.691
+   st ang: 30.000 end ang: 30.000 a_o_dif: 0.846 b_o_dif: 0.846
+test tan a.y/a.x: 0.577  test tan b.y/b.x: 0.577  atan a: 30.000  atan b: 30.000
+
+  box:  fr: -2.000,-2.000 to 2.000,2.000 a: pt: 1.116, -1.660 b: pt: 1.178, -1.616 rad: 2.000
+   st ang: 303.901 end ang: 306.099 a_o_dif: -1.660 b_o_dif: -1.616
+test tan a.y/a.x: -1.488  test tan b.y/b.x: -1.371  atan a: 303.901  atan b: 306.099
+
+  box:  fr: -1.600,-1.600 to 1.600,1.600 a: pt: 1.028, -1.226 b: pt: 1.226, -1.028 rad: 1.600
+   st ang: 310.000 end ang: 320.000 a_o_dif: -1.226 b_o_dif: -1.028
+test tan a.y/a.x: -1.192  test tan b.y/b.x: -0.839  atan a: 310.000  atan b: 320.000
+
+  box:  fr: -1.691,-1.691 to 1.691,1.691 a: pt: 1.666, 0.294 b: pt: 1.666, 0.294 rad: 1.691
+   st ang: 10.000 end ang: 10.000 a_o_dif: 0.294 b_o_dif: 0.294
+test tan a.y/a.x: 0.176  test tan b.y/b.x: 0.176  atan a: 10.000  atan b: 10.000
+
+  box:  fr: -2.000,-2.000 to 2.000,2.000 a: pt: 0.480, -1.941 b: pt: 0.555, -1.922 rad: 2.000
+   st ang: 283.901 end ang: 286.099 a_o_dif: -1.941 b_o_dif: -1.922
+test tan a.y/a.x: -4.040  test tan b.y/b.x: -3.465  atan a: 283.901  atan b: 286.099
+
+  box:  fr: -1.600,-1.600 to 1.600,1.600 a: pt: 0.547, -1.504 b: pt: 0.800, -1.386 rad: 1.600
+   st ang: 290.000 end ang: 300.000 a_o_dif: -1.504 b_o_dif: -1.386
+test tan a.y/a.x: -2.747  test tan b.y/b.x: -1.732  atan a: 290.000  atan b: 300.000
+
+  box:  fr: -1.691,-1.691 to 1.691,1.691 a: pt: 1.666, -0.294 b: pt: 1.666, -0.294 rad: 1.691
+   st ang: 350.000 end ang: 350.000 a_o_dif: -0.294 b_o_dif: -0.294
+test tan a.y/a.x: -0.176  test tan b.y/b.x: -0.176  atan a: 350.000  atan b: 350.000
+
+  box:  fr: -2.000,-2.000 to 2.000,2.000 a: pt: -0.212, -1.989 b: pt: -0.136, -1.995 rad: 2.000
+   st ang: 263.901 end ang: 266.099 a_o_dif: -1.989 b_o_dif: -1.995
+test tan a.y/a.x: 9.359  test tan b.y/b.x: 14.664  atan a: 263.901  atan b: 266.099
+
+  box:  fr: -1.600,-1.600 to 1.600,1.600 a: pt: -0.000, -1.600 b: pt: 0.278, -1.576 rad: 1.600
+   st ang: 270.000 end ang: 280.000 a_o_dif: -1.600 b_o_dif: -1.576
+test tan a.y/a.x: 28823037615171172.000  test tan b.y/b.x: -5.671  atan a: 270.000  atan b: 280.000
+
+  box:  fr: -1.691,-1.691 to 1.691,1.691 a: pt: 1.465, -0.846 b: pt: 1.465, -0.846 rad: 1.691
+   st ang: 330.000 end ang: 330.000 a_o_dif: -0.846 b_o_dif: -0.846
+test tan a.y/a.x: -0.577  test tan b.y/b.x: -0.577  atan a: 330.000  atan b: 330.000
+
+  box:  fr: -2.000,-2.000 to 2.000,2.000 a: pt: -0.880, -1.796 b: pt: -0.810, -1.828 rad: 2.000
+   st ang: 243.901 end ang: 246.099 a_o_dif: -1.796 b_o_dif: -1.828
+test tan a.y/a.x: 2.041  test tan b.y/b.x: 2.257  atan a: 243.901  atan b: 246.099
+
+  box:  fr: -1.600,-1.600 to 1.600,1.600 a: pt: -0.547, -1.504 b: pt: -0.278, -1.576 rad: 1.600
+   st ang: 250.000 end ang: 260.000 a_o_dif: -1.504 b_o_dif: -1.576
+test tan a.y/a.x: 2.747  test tan b.y/b.x: 5.671  atan a: 250.000  atan b: 260.000
+
+  box:  fr: -1.691,-1.691 to 1.691,1.691 a: pt: 1.087, -1.296 b: pt: 1.087, -1.296 rad: 1.691
+   st ang: 310.000 end ang: 310.000 a_o_dif: -1.296 b_o_dif: -1.296
+test tan a.y/a.x: -1.192  test tan b.y/b.x: -1.192  atan a: 310.000  atan b: 310.000
+
+  box:  fr: -2.000,-2.000 to 2.000,2.000 a: pt: -1.441, -1.387 b: pt: -1.387, -1.441 rad: 2.000
+   st ang: 223.901 end ang: 226.099 a_o_dif: -1.387 b_o_dif: -1.441
+test tan a.y/a.x: 0.962  test tan b.y/b.x: 1.039  atan a: 223.901  atan b: 226.099
+
+  box:  fr: -1.600,-1.600 to 1.600,1.600 a: pt: -1.028, -1.226 b: pt: -0.800, -1.386 rad: 1.600
+   st ang: 230.000 end ang: 240.000 a_o_dif: -1.226 b_o_dif: -1.386
+test tan a.y/a.x: 1.192  test tan b.y/b.x: 1.732  atan a: 230.000  atan b: 240.000
+
+  box:  fr: -1.691,-1.691 to 1.691,1.691 a: pt: 0.579, -1.589 b: pt: 0.579, -1.589 rad: 1.691
+   st ang: 290.000 end ang: 290.000 a_o_dif: -1.589 b_o_dif: -1.589
+test tan a.y/a.x: -2.747  test tan b.y/b.x: -2.747  atan a: 290.000  atan b: 290.000
+
+  box:  fr: -2.000,-2.000 to 2.000,2.000 a: pt: -1.828, -0.810 b: pt: -1.796, -0.880 rad: 2.000
+   st ang: 203.901 end ang: 206.099 a_o_dif: -0.810 b_o_dif: -0.880
+test tan a.y/a.x: 0.443  test tan b.y/b.x: 0.490  atan a: 203.901  atan b: 206.099
+
+  box:  fr: -1.600,-1.600 to 1.600,1.600 a: pt: -1.386, -0.800 b: pt: -1.226, -1.028 rad: 1.600
+   st ang: 210.000 end ang: 220.000 a_o_dif: -0.800 b_o_dif: -1.028
+test tan a.y/a.x: 0.577  test tan b.y/b.x: 0.839  atan a: 210.000  atan b: 220.000
+
+  box:  fr: -1.691,-1.691 to 1.691,1.691 a: pt: -0.000, -1.691 b: pt: -0.000, -1.691 rad: 1.691
+   st ang: 270.000 end ang: 270.000 a_o_dif: -1.691 b_o_dif: -1.691
+test tan a.y/a.x: 8165619676597685.000  test tan b.y/b.x: 8165619676597685.000  atan a: 270.000  atan b: 270.000
+
+  box:  fr: -2.000,-2.000 to 2.000,2.000 a: pt: -1.995, -0.136 b: pt: -1.989, -0.212 rad: 2.000
+   st ang: 183.901 end ang: 186.099 a_o_dif: -0.136 b_o_dif: -0.212
+test tan a.y/a.x: 0.068  test tan b.y/b.x: 0.107  atan a: 183.901  atan b: 186.099
+
+  box:  fr: -1.600,-1.600 to 1.600,1.600 a: pt: -1.576, -0.278 b: pt: -1.504, -0.547 rad: 1.600
+   st ang: 190.000 end ang: 200.000 a_o_dif: -0.278 b_o_dif: -0.547
+test tan a.y/a.x: 0.176  test tan b.y/b.x: 0.364  atan a: 190.000  atan b: 200.000
+
+  box:  fr: -1.691,-1.691 to 1.691,1.691 a: pt: -0.579, -1.589 b: pt: -0.579, -1.589 rad: 1.691
+   st ang: 250.000 end ang: 250.000 a_o_dif: -1.589 b_o_dif: -1.589
+test tan a.y/a.x: 2.747  test tan b.y/b.x: 2.747  atan a: 250.000  atan b: 250.000
+
+  box:  fr: -2.000,-2.000 to 2.000,2.000 a: pt: -1.922, 0.555 b: pt: -1.941, 0.480 rad: 2.000
+   st ang: 163.901 end ang: 166.099 a_o_dif: 0.555 b_o_dif: 0.480
+test tan a.y/a.x: -0.289  test tan b.y/b.x: -0.247  atan a: 163.901  atan b: 166.099
+
+  box:  fr: -1.600,-1.600 to 1.600,1.600 a: pt: -1.576, 0.278 b: pt: -1.600, 0.000 rad: 1.600
+   st ang: 170.000 end ang: 180.000 a_o_dif: 0.278 b_o_dif: 0.000
+test tan a.y/a.x: -0.176  test tan b.y/b.x: -0.000  atan a: 170.000  atan b: 180.000
+
+  box:  fr: -1.691,-1.691 to 1.691,1.691 a: pt: -1.087, -1.296 b: pt: -1.087, -1.296 rad: 1.691
+   st ang: 230.000 end ang: 230.000 a_o_dif: -1.296 b_o_dif: -1.296
+test tan a.y/a.x: 1.192  test tan b.y/b.x: 1.192  atan a: 230.000  atan b: 230.000
+
+  box:  fr: -2.000,-2.000 to 2.000,2.000 a: pt: -1.616, 1.178 b: pt: -1.660, 1.116 rad: 2.000
+   st ang: 143.901 end ang: 146.099 a_o_dif: 1.178 b_o_dif: 1.116
+test tan a.y/a.x: -0.729  test tan b.y/b.x: -0.672  atan a: 143.901  atan b: 146.099
+
+  box:  fr: -1.600,-1.600 to 1.600,1.600 a: pt: -1.386, 0.800 b: pt: -1.504, 0.547 rad: 1.600
+   st ang: 150.000 end ang: 160.000 a_o_dif: 0.800 b_o_dif: 0.547
+test tan a.y/a.x: -0.577  test tan b.y/b.x: -0.364  atan a: 150.000  atan b: 160.000
+
+  box:  fr: -1.691,-1.691 to 1.691,1.691 a: pt: -1.465, -0.846 b: pt: -1.465, -0.846 rad: 1.691
+   st ang: 210.000 end ang: 210.000 a_o_dif: -0.846 b_o_dif: -0.846
+test tan a.y/a.x: 0.577  test tan b.y/b.x: 0.577  atan a: 210.000  atan b: 210.000
+
+  box:  fr: -2.000,-2.000 to 2.000,2.000 a: pt: -1.116, 1.660 b: pt: -1.178, 1.616 rad: 2.000
+   st ang: 123.901 end ang: 126.099 a_o_dif: 1.660 b_o_dif: 1.616
+test tan a.y/a.x: -1.488  test tan b.y/b.x: -1.371  atan a: 123.901  atan b: 126.099
+
+  box:  fr: -1.600,-1.600 to 1.600,1.600 a: pt: -1.028, 1.226 b: pt: -1.226, 1.028 rad: 1.600
+   st ang: 130.000 end ang: 140.000 a_o_dif: 1.226 b_o_dif: 1.028
+test tan a.y/a.x: -1.192  test tan b.y/b.x: -0.839  atan a: 130.000  atan b: 140.000
+
+  box:  fr: -1.691,-1.691 to 1.691,1.691 a: pt: -1.666, -0.294 b: pt: -1.666, -0.294 rad: 1.691
+   st ang: 190.000 end ang: 190.000 a_o_dif: -0.294 b_o_dif: -0.294
+test tan a.y/a.x: 0.176  test tan b.y/b.x: 0.176  atan a: 190.000  atan b: 190.000
+
+  box:  fr: -2.000,-2.000 to 2.000,2.000 a: pt: -0.480, 1.941 b: pt: -0.555, 1.922 rad: 2.000
+   st ang: 103.901 end ang: 106.099 a_o_dif: 1.941 b_o_dif: 1.922
+test tan a.y/a.x: -4.040  test tan b.y/b.x: -3.465  atan a: 103.901  atan b: 106.099
+
+  box:  fr: -1.600,-1.600 to 1.600,1.600 a: pt: -0.547, 1.504 b: pt: -0.800, 1.386 rad: 1.600
+   st ang: 110.000 end ang: 120.000 a_o_dif: 1.504 b_o_dif: 1.386
+test tan a.y/a.x: -2.747  test tan b.y/b.x: -1.732  atan a: 110.000  atan b: 120.000
+
+  box:  fr: -1.691,-1.691 to 1.691,1.691 a: pt: -1.666, 0.294 b: pt: -1.666, 0.294 rad: 1.691
+   st ang: 170.000 end ang: 170.000 a_o_dif: 0.294 b_o_dif: 0.294
+test tan a.y/a.x: -0.176  test tan b.y/b.x: -0.176  atan a: 170.000  atan b: 170.000
+
+  box:  fr: -2.000,-2.000 to 2.000,2.000 a: pt: 0.212, 1.989 b: pt: 0.136, 1.995 rad: 2.000
+   st ang: 83.901 end ang: 86.099 a_o_dif: 1.989 b_o_dif: 1.995
+test tan a.y/a.x: 9.359  test tan b.y/b.x: 14.664  atan a: 83.901  atan b: 86.099
+
+  box:  fr: -1.600,-1.600 to 1.600,1.600 a: pt: 0.000, 1.600 b: pt: -0.278, 1.576 rad: 1.600
+   st ang: 90.000 end ang: 100.000 a_o_dif: 1.600 b_o_dif: 1.576
+test tan a.y/a.x: 9607679205057058.000  test tan b.y/b.x: -5.671  atan a: 90.000  atan b: 100.000
+
+  box:  fr: -1.691,-1.691 to 1.691,1.691 a: pt: -1.465, 0.846 b: pt: -1.465, 0.846 rad: 1.691
+   st ang: 150.000 end ang: 150.000 a_o_dif: 0.846 b_o_dif: 0.846
+test tan a.y/a.x: -0.577  test tan b.y/b.x: -0.577  atan a: 150.000  atan b: 150.000
+
+  box:  fr: -2.000,-2.000 to 2.000,2.000 a: pt: 0.880, 1.796 b: pt: 0.810, 1.828 rad: 2.000
+   st ang: 63.901 end ang: 66.099 a_o_dif: 1.796 b_o_dif: 1.828
+test tan a.y/a.x: 2.041  test tan b.y/b.x: 2.257  atan a: 63.901  atan b: 66.099
+
+  box:  fr: -1.600,-1.600 to 1.600,1.600 a: pt: 0.547, 1.504 b: pt: 0.278, 1.576 rad: 1.600
+   st ang: 70.000 end ang: 80.000 a_o_dif: 1.504 b_o_dif: 1.576
+test tan a.y/a.x: 2.747  test tan b.y/b.x: 5.671  atan a: 70.000  atan b: 80.000
+
+  box:  fr: -1.691,-1.691 to 1.691,1.691 a: pt: -1.087, 1.296 b: pt: -1.087, 1.296 rad: 1.691
+   st ang: 130.000 end ang: 130.000 a_o_dif: 1.296 b_o_dif: 1.296
+test tan a.y/a.x: -1.192  test tan b.y/b.x: -1.192  atan a: 130.000  atan b: 130.000
+
+  box:  fr: -2.000,-2.000 to 2.000,2.000 a: pt: 1.441, 1.387 b: pt: 1.387, 1.441 rad: 2.000
+   st ang: 43.901 end ang: 46.099 a_o_dif: 1.387 b_o_dif: 1.441
+test tan a.y/a.x: 0.962  test tan b.y/b.x: 1.039  atan a: 43.901  atan b: 46.099
+
+  box:  fr: -1.600,-1.600 to 1.600,1.600 a: pt: 1.028, 1.226 b: pt: 0.800, 1.386 rad: 1.600
+   st ang: 50.000 end ang: 60.000 a_o_dif: 1.226 b_o_dif: 1.386
+test tan a.y/a.x: 1.192  test tan b.y/b.x: 1.732  atan a: 50.000  atan b: 60.000
+
+  box:  fr: -1.691,-1.691 to 1.691,1.691 a: pt: -0.579, 1.589 b: pt: -0.579, 1.589 rad: 1.691
+   st ang: 110.000 end ang: 110.000 a_o_dif: 1.589 b_o_dif: 1.589
+test tan a.y/a.x: -2.747  test tan b.y/b.x: -2.747  atan a: 110.000  atan b: 110.000
+
+  box:  fr: -2.000,-2.000 to 2.000,2.000 a: pt: 1.828, 0.810 b: pt: 1.796, 0.880 rad: 2.000
+   st ang: 23.901 end ang: 26.099 a_o_dif: 0.810 b_o_dif: 0.880
+test tan a.y/a.x: 0.443  test tan b.y/b.x: 0.490  atan a: 23.901  atan b: 26.099
+
+  box:  fr: -1.600,-1.600 to 1.600,1.600 a: pt: 1.386, 0.800 b: pt: 1.226, 1.028 rad: 1.600
+   st ang: 30.000 end ang: 40.000 a_o_dif: 0.800 b_o_dif: 1.028
+test tan a.y/a.x: 0.577  test tan b.y/b.x: 0.839  atan a: 30.000  atan b: 40.000
+
+  box:  fr: -1.691,-1.691 to 1.691,1.691 a: pt: 0.000, 1.691 b: pt: 0.000, 1.691 rad: 1.691
+   st ang: 90.000 end ang: 90.000 a_o_dif: 1.691 b_o_dif: 1.691
+test tan a.y/a.x: inf  test tan b.y/b.x: inf  atan a: 90.000  atan b: 90.000
+
+  box:  fr: -2.000,-2.000 to 2.000,2.000 a: pt: 1.995, 0.136 b: pt: 1.989, 0.212 rad: 2.000
+   st ang: 3.901 end ang: 6.099 a_o_dif: 0.136 b_o_dif: 0.212
+test tan a.y/a.x: 0.068  test tan b.y/b.x: 0.107  atan a: 3.901  atan b: 6.099
+
+  box:  fr: -1.600,-1.600 to 1.600,1.600 a: pt: 1.576, 0.278 b: pt: 1.504, 0.547 rad: 1.600
+   st ang: 10.000 end ang: 20.000 a_o_dif: 0.278 b_o_dif: 0.547
+test tan a.y/a.x: 0.176  test tan b.y/b.x: 0.364  atan a: 10.000  atan b: 20.000
+
+  box:  fr: -0.283,-0.283 to 0.283,0.283 a: pt: 0.200, 0.200 b: pt: 0.200, 0.200 rad: 0.283
+   st ang: 45.000 end ang: 45.000 a_o_dif: 0.200 b_o_dif: 0.200
+test tan a.y/a.x: 1.000  test tan b.y/b.x: 1.000  atan a: 45.000  atan b: 45.000
+
