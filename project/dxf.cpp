@@ -212,7 +212,7 @@ void DXF_Stream( std::wofstream& os, DrawingObects& drawobj, DL_Dxf* dxf, DL_Wri
 		for( auto item : groups )
 			//if( item->GetMill( ) )
 		{
-			//auto item= *ittem;
+			//TODO use typecase(...) here...
 			const std::type_info& ti1= typeid( item );
 			//if( ! item->GetMill( ) )
 			//	continue;
@@ -249,9 +249,6 @@ void DXF_Stream( std::wofstream& os, DrawingObects& drawobj, DL_Dxf* dxf, DL_Wri
 
 					continue;
 				}
-				if( p )
-					;
-				//TRACE( "an arc\n" );
 			}
 
 			{

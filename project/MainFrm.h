@@ -3,10 +3,13 @@
 //
 
 #pragma once
+#include "resource.h"
 #include "FileView.h"
 #include "LayerView.h"
 #include "OutputWnd.h"
 #include "PropertiesWnd.h"
+#include "GearDialog.h"
+
 //#include "Ruler.h"
 
 class CMainFrame : public CMDIFrameWndEx
@@ -53,6 +56,8 @@ protected:  // control bar embedded members
 	CFileView			m_wndFileView;
 	COutputWnd			m_wndOutput;
 	CPropertiesWnd		m_wndProperties;
+	//
+	CGearsDialog		gear_dlg;
 
 // Generated message map functions
 protected:

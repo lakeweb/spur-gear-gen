@@ -1,4 +1,27 @@
 
+#pragma once
+
+// ..........................................................................
+struct DrawExtent
+{
+	CRect& rectClient;
+	long& of_x;
+	long& of_y;
+	double& zoom;
+	bool bVert;
+	bool bHorz;
+
+	DrawExtent( CRect& rect, long& ix, long& iy, double& izoom )
+		:rectClient( rect )
+		,of_x( ix )
+		,of_y( iy )
+		,zoom( izoom )
+		,bVert( false )
+		,bHorz( false )
+	{ }
+	void set_all( ) { bVert= true; bHorz= true; }
+	void clear_all( ) { bVert= false; bHorz= false; }
+};
 
 // ..............................................................
 typedef struct _layer
@@ -30,12 +53,13 @@ typedef struct _info_notify
 		output,
 		layer,
 	};
-
+	bool bClear;
 	call the_call;
 	std::string basic_info;
 
 	_info_notify( call which )
 		:the_call( which )
+		,bClear( false )
 	{ }
 
 }info_notify_t;
@@ -70,6 +94,15 @@ typedef struct _dock_notify
 
 #define MSG_LAYER_ENABLE				( MSG_APP_BEGIN + 1 )
 #define CMD_TEST						( MSG_APP_BEGIN + 2 )
+
+
+//for sending notifications to CDocument Objects
+//https://www.codeproject.com/articles/14706/notifying-the-document
+typedef struct tagNMHDROBJECT
+{
+	NMHDR nmHdr;
+	void* pObject; 
+} NMHDROBJECT, *PNMHDROBJECT;
 
 
 

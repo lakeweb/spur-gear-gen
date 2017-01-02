@@ -5,10 +5,6 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Gears", "Gears.vcxproj", "{97755426-7310-43DE-A013-39336227DB54}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "voronoi", "voronoi\voronoi.vcxproj", "{46E0BF90-7668-4EFB-8464-EA73814B9ECB}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test_dxf", "test_dxf\test_dxf.vcxproj", "{D30AD4BB-42A7-4C74-BC53-6F42518CFE14}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -23,16 +19,6 @@ Global
 		{97755426-7310-43DE-A013-39336227DB54}.Release|Win32.ActiveCfg = Release|Win32
 		{97755426-7310-43DE-A013-39336227DB54}.Release|Win32.Build.0 = Release|Win32
 		{97755426-7310-43DE-A013-39336227DB54}.Release|x64.ActiveCfg = Release|Win32
-		{46E0BF90-7668-4EFB-8464-EA73814B9ECB}.Debug|Win32.ActiveCfg = Debug|Win32
-		{46E0BF90-7668-4EFB-8464-EA73814B9ECB}.Debug|x64.ActiveCfg = Debug|Win32
-		{46E0BF90-7668-4EFB-8464-EA73814B9ECB}.Release|Win32.ActiveCfg = Release|Win32
-		{46E0BF90-7668-4EFB-8464-EA73814B9ECB}.Release|x64.ActiveCfg = Release|Win32
-		{D30AD4BB-42A7-4C74-BC53-6F42518CFE14}.Debug|Win32.ActiveCfg = Debug|Win32
-		{D30AD4BB-42A7-4C74-BC53-6F42518CFE14}.Debug|x64.ActiveCfg = Debug|x64
-		{D30AD4BB-42A7-4C74-BC53-6F42518CFE14}.Debug|x64.Build.0 = Debug|x64
-		{D30AD4BB-42A7-4C74-BC53-6F42518CFE14}.Release|Win32.ActiveCfg = Release|Win32
-		{D30AD4BB-42A7-4C74-BC53-6F42518CFE14}.Release|x64.ActiveCfg = Release|x64
-		{D30AD4BB-42A7-4C74-BC53-6F42518CFE14}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

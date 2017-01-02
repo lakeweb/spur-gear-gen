@@ -37,10 +37,7 @@ typedef struct gear_params
 	double bd; //base diameter for involute
 	double od; //outside diameter
 	double of; //offset of base to pitch tooth half point
-}gear_params_t;
+}gear_params_t, *pgear_params_t;
 
+typedef boost::shared_ptr< gear_params_t > SP_gear_params_t;
 
-
-// ............................................................
-ObjectSet gear_gen_one( gear_params_t& gp );
-ObjectSet gear_generate( ObjectSet& tooth, gear_params_t& gp );

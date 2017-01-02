@@ -33,8 +33,8 @@ public:
 	virtual void LoadCustomState();
 	virtual void SaveCustomState();
 
+DECLARE_MESSAGE_MAP()
 	afx_msg void OnAppAbout();
-	DECLARE_MESSAGE_MAP()
 };
 
 extern CGearsApp theApp;

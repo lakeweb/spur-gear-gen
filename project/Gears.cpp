@@ -17,7 +17,10 @@
 
 #include "Gears.h"
 #include "MainFrm.h"
-#include "GearFrame.h"
+#include "CADDoc.h"
+#include "CADView.h"
+#include "CADFrame.h"
+
 #include "GearsDoc.h"
 #include "GearsView.h"
 
@@ -25,8 +28,7 @@
 #define new DEBUG_NEW
 #endif
 
-
-// CGearsApp
+CGearsApp theApp;
 
 BEGIN_MESSAGE_MAP(CGearsApp, CWinAppEx)
 	ON_COMMAND(ID_APP_ABOUT, &CGearsApp::OnAppAbout)
@@ -37,9 +39,7 @@ BEGIN_MESSAGE_MAP(CGearsApp, CWinAppEx)
 	ON_COMMAND(ID_FILE_PRINT_SETUP, &CWinAppEx::OnFilePrintSetup)
 END_MESSAGE_MAP()
 
-
-// CGearsApp construction
-
+// ............................................................................
 CGearsApp::CGearsApp()
 {
 	m_bHiColorIcons = TRUE;
@@ -61,13 +61,6 @@ CGearsApp::CGearsApp()
 	// Place all significant initialization in InitInstance
 }
 
-// The one and only CGearsApp object
-
-CGearsApp theApp;
-
-
-// CGearsApp initialization
-
 BOOL CGearsApp::InitInstance()
 {
 	// InitCommonControlsEx() is required on Windows XP if an application
@@ -81,7 +74,6 @@ BOOL CGearsApp::InitInstance()
 	InitCommonControlsEx(&InitCtrls);
 
 	CWinAppEx::InitInstance();
-
 
 	// Initialize OLE libraries
 	if (!AfxOleInit())
@@ -107,37 +99,40 @@ BOOL CGearsApp::InitInstance()
 	SetRegistryKey(_T("Local AppWizard-Generated Applications"));
 	LoadStdProfileSettings(4);  // Load standard INI file options (including MRU)
 
-
 	InitContextMenuManager();
-
 	InitKeyboardManager();
 
 	InitTooltipManager();
 	CMFCToolTipInfo ttParams;
 	ttParams.m_bVislManagerTheme = TRUE;
-	theApp.GetTooltipManager()->SetTooltipParams(AFX_TOOLTIP_TYPE_ALL,
-		RUNTIME_CLASS(CMFCToolTipCtrl), &ttParams);
+	theApp.GetTooltipManager()->SetTooltipParams(AFX_TOOLTIP_TYPE_ALL, RUNTIME_CLASS(CMFCToolTipCtrl), &ttParams);
 
 	// Register the application's document templates.  Document templates
 	//  serve as the connection between documents, frame windows and views
 	CMultiDocTemplate* pDocTemplate;
+	//pDocTemplate = new CMultiDocTemplate(
+	//	IDR_MAINFRAME,
+	//	RUNTIME_CLASS(CADDoc),
+	//	RUNTIME_CLASS(CADFrame),       // main SDI frame window
+	//	RUNTIME_CLASS(CADView)
+	//	);
 	pDocTemplate = new CMultiDocTemplate(
 		IDR_MAINFRAME,
 		RUNTIME_CLASS(CGearsDoc),
-		RUNTIME_CLASS(GearFrame),       // main SDI frame window
-		RUNTIME_CLASS(CGearsView)
-		);
+		RUNTIME_CLASS(CADFrame),       // main SDI frame window
+		RUNTIME_CLASS(CADView)
+	);
 	if (!pDocTemplate)
 		return FALSE;
 	AddDocTemplate(pDocTemplate);
 
-	// Parse command line for standard shell commands, DDE, file open
-	CCommandLineInfo cmdInfo;
-	ParseCommandLine(cmdInfo);
+	//// Parse command line for standard shell commands, DDE, file open
+	//CCommandLineInfo cmdInfo;
+	//ParseCommandLine(cmdInfo);
 
-	// Enable DDE Execute open
-	EnableShellOpen();
-	RegisterShellFileTypes(TRUE);
+	//// Enable DDE Execute open
+	//EnableShellOpen();
+	//RegisterShellFileTypes(TRUE);
 
 
 	// create main MDI Frame window
@@ -235,8 +230,3 @@ void CGearsApp::LoadCustomState()
 void CGearsApp::SaveCustomState()
 {
 }
-
-// CGearsApp message handlers
-
-
-

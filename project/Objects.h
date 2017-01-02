@@ -45,6 +45,7 @@ typedef std::vector< ItemObj >::const_iterator obj_vect_cit_t;
 
 // ..........................................................................
 class PointItem : public ItemObj
+	,public boost::enable_shared_from_this< PointItem > //item
 {
 	bg_point point;
 
@@ -52,6 +53,8 @@ public:
 	PointItem( const bg_point& a )
 		:point( a )
 	{ }
+	boost::shared_ptr< PointItem > get_SP( ) {	return boost::make_shared< PointItem >( *this ); }
+	operator const bg_point& ( ) { return point; }
 	const bg_point& get_bg_point( ) const { return point; }
 	void set( bg_point& in ) { point= in; }
 	void operator = ( const PointItem& in ) { point= in.get_bg_point( ); }
@@ -60,6 +63,7 @@ typedef boost::shared_ptr< PointItem > SP_PointItem;
 
 // ..........................................................................
 class LineItem : public ItemObj
+	,public boost::enable_shared_from_this< LineItem > //item
 {
 	bg_line line;
 
@@ -70,9 +74,8 @@ public:
 	LineItem( const bg_line& a )
 		:line( a )
 	{ }
-	//LineItem( const LineItem& a )
-	//	:line( a )
-	//{ }
+	boost::shared_ptr< LineItem > get_SP( ) {	return boost::make_shared< LineItem >( *this ); }
+	operator const bg_line& ( ) const { return line; }
 	const bg_line& get_bg_line( ) const { return line; }
 	void set( bg_line& in ) { line= in; }
 };
@@ -121,6 +124,7 @@ typedef boost::shared_ptr< ArcItem > SP_ArcItem;
 
 // ..........................................................................
 class RectItem : public ItemObj
+	,public boost::enable_shared_from_this< RectItem > //item
 {
 	bg_box box;
 
@@ -128,9 +132,16 @@ public:
 	RectItem( const bg_point& a, const bg_point& b )
 		:box( a, b )
 	{ }
-
+	RectItem( const bg_box& a )
+		:box( a )
+	{ }
+	boost::shared_ptr< RectItem > get_SP( ) {	return boost::make_shared< RectItem >( *this ); }
 	const bg_box& get_bg_box( ) const { return box; }
+	GEO_NUM width( ) const { return box.max_corner( ).get_x( ) - box.min_corner( ).get_x( ); }
+	GEO_NUM height( ) const { return box.max_corner( ).get_y( ) - box.min_corner( ).get_y( ); }
 
+	bg_point& get_min_point( ) { return box.min_corner( ); }
+	bg_point& get_max_point( ) { return box.max_corner( ); }
 };
 typedef boost::shared_ptr< RectItem > SP_RectItem;
 
@@ -247,9 +258,14 @@ public:
 typedef std::vector< ObjectSet > object_set_t;
 
 //globals .................................
-//both of these rotate/tranform a copyed object leaving the origanal in place
+//both of these rotate/tranform a copied object leaving the origanal in place
 SP_BaseItem rotate_object( GEO_NUM angle, const SP_BaseItem& input, bg_point origin= bg_point( ) );
 SP_BaseItem transform_object( const SP_BaseItem& input, bg_point offset );
+
+bg_box get_rect_hull( const SP_BaseItem& obs );
+bg_box get_rect_hull( sp_obj_vect_t& obs );
+bg_box get_rect_hull( object_set_t& objects );
+
 
 
 #endif //OBJECT_H

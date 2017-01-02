@@ -53,25 +53,6 @@
 #include <typeinfo>
 
 // ..........................................................................
-//http://stackoverflow.com/questions/2055849/visual-c-migrating-traditional-c-and-c-string-code-to-a-unicode-world
-namespace std
-{
-
-#ifdef _MSC_VER
-
-#ifdef UNICODE
-typedef             wstring                         tstring ;
-typedef             wistream                        tistream ;
-// etc.
-#else // Not UNICODE
-typedef             string                          tstring ;
-typedef             istream                         tistream ;
-// etc.
-#endif
-
-#endif
-
-} // namespace std
 
 #include <vector>
 #include <list>
@@ -84,6 +65,8 @@ typedef             istream                         tistream ;
 #include <boost/weak_ptr.hpp>
 #include <boost/shared_array.hpp>
 #include <boost/make_shared.hpp>
+#include <boost/enable_shared_from_this.hpp>
+#include <boost/smart_ptr/detail/sp_nullptr_t.hpp>
 
 #include <boost/filesystem.hpp>
 namespace bfs= boost::filesystem;
@@ -102,6 +85,8 @@ namespace bfs= boost::filesystem;
 #include <boost/geometry/geometries/register/point.hpp>
 #include <boost/geometry/geometries/register/ring.hpp>
 #include <boost/geometry/core/point_order.hpp> 
+#include <boost/geometry/geometries/multi_polygon.hpp>
+#include <boost/geometry/geometries/adapted/boost_tuple.hpp>
 #pragma warning(pop)
 
 // Optional includes to handle c-arrays as points, std::vectors as linestrings
@@ -139,11 +124,20 @@ namespace ba= boost::algorithm;
 #define USE_WINDOWS_EX
 //#include <ctrlext.h>
 
-#define USING_UNI_CONVERTER
 #include <std_share.h>
 
 #define USING_XML
+#ifndef UNICODE
+#error unicode not defined
+#endif
 #include <xml.h>
+#include <globals.h>
+#include "gear_gen.h"
 
 #include <dxflib/dl_dxf.h>
 #include <dxflib/dl_writer_ascii.h>
+
+//this is here so avaliable globaly app and xmlsettingsstore
+AFX_STATIC_DATA LPCTSTR DUMMY_REGISTRY_PATH= _T("DummyPCBRegistryPath");
+AFX_STATIC_DATA LPCTSTR USER_SETTINGS_FILENAME= _T("settings.xml");
+

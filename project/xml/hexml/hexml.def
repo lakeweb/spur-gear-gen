@@ -1,0 +1,6 @@
+; hexml.def : Declares the module parameters for the DLL.
+
+LIBRARY      "hexml"
+
+EXPORTS
+    ; Explicit exports can go here

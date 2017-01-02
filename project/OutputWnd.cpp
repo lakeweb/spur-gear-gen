@@ -160,6 +160,7 @@ COutputList::~COutputList()
 
 void COutputList::ClearList( )
 {
+	ResetContent( );
 }
 
 BEGIN_MESSAGE_MAP(COutputList, CListBox)

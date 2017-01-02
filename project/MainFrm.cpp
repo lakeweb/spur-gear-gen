@@ -73,6 +73,8 @@ LRESULT CMainFrame::OnInfoNotify( WPARAM wp,LPARAM lp )
 	switch( pNote->the_call )
 	{
 	case info_notify_t::output:
+		if( pNote->bClear )
+			m_wndOutput.ClearBuildWindow( );
 		m_wndOutput.SetBuildText( pNote->basic_info );
 		break;
 
@@ -177,9 +179,12 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	layer_tree_view.AttachToTabWnd(&m_wndFileView, DM_SHOW, TRUE, &pTabbedBar);
 	m_wndOutput.EnableDocking(CBRS_ALIGN_ANY);
 	DockPane(&m_wndOutput);
+
 	m_wndProperties.EnableDocking(CBRS_ALIGN_ANY);
 	DockPane(&m_wndProperties);
-
+	//
+	gear_dlg.EnableDocking( CBRS_ALIGN_ANY );
+	DockPane( &gear_dlg );
 
 	// Enable toolbar and docking window menu replacement
 	EnablePaneMenu(TRUE, ID_VIEW_CUSTOMIZE, strCustomize, ID_VIEW_TOOLBAR);
@@ -282,6 +287,27 @@ BOOL CMainFrame::CreateDockingWindows()
 		return FALSE; // failed to create
 	}
 
+	// Create gear dialog window
+	CString strGearDlgWnd;
+	bNameValid = strGearDlgWnd.LoadString(IDS_GEAR_DLG);
+	ASSERT(bNameValid);
+//	if( ! gear_dlg.Create( strGearDlgWnd, this, CRect(0, 0, 200, 200), TRUE, ID_VIEW_GEARSSWND, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_RIGHT | CBRS_FLOAT_MULTI))
+	if( ! gear_dlg.Create( strGearDlgWnd, this, TRUE, IDS_GEAR_DLG, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_RIGHT | CBRS_FLOAT_MULTI, IDS_GEAR_DLG))
+	{
+		TRACE0("Failed to create Gear Dialog window\n");
+		return FALSE; // failed to create
+	}
+
+	//// Create gear dialog window
+	//CString strGearDlgWnd;
+	//bNameValid = strGearDlgWnd.LoadString(IDS_GEAR_DLG);
+	//ASSERT(bNameValid);
+	//if( ! gear_dlg.Create( strGearDlgWnd, this, TRUE, IDS_GEAR_DLG, 0, 123 ) )// CRect(0, 0, 100, 100), TRUE, IDS_GEAR_DLG, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_BOTTOM | CBRS_FLOAT_MULTI))
+	//{
+	//	TRACE0("Failed to create Gear Dialog window\n");
+	//	return FALSE; // failed to create
+	//}
+
 	SetDockingWindowIcons(theApp.m_bHiColorIcons);
 	return TRUE;
 }
@@ -299,6 +325,9 @@ void CMainFrame::SetDockingWindowIcons(BOOL bHiColorIcons)
 
 	HICON hPropertiesBarIcon = (HICON) ::LoadImage(::AfxGetResourceHandle(), MAKEINTRESOURCE(bHiColorIcons ? IDI_PROPERTIES_WND_HC : IDI_PROPERTIES_WND), IMAGE_ICON, ::GetSystemMetrics(SM_CXSMICON), ::GetSystemMetrics(SM_CYSMICON), 0);
 	m_wndProperties.SetIcon(hPropertiesBarIcon, FALSE);
+
+	HICON hGearDlgBarIcon = (HICON) ::LoadImage(::AfxGetResourceHandle(), MAKEINTRESOURCE(bHiColorIcons ? IDI_GEARS_WND_HC : IDI_PROPERTIES_WND), IMAGE_ICON, ::GetSystemMetrics(SM_CXSMICON), ::GetSystemMetrics(SM_CYSMICON), 0);
+	gear_dlg.SetIcon(hGearDlgBarIcon, FALSE);
 
 }
 
@@ -319,7 +348,10 @@ void CMainFrame::Dump(CDumpContext& dc) const
 
 LRESULT CMainFrame::OnDockableMsg( WPARAM wp, LPARAM lp )
 {
-	GetActiveView( )->SendMessage( VIEW_INFO_NOTIFY, wp, lp );
+	if( GetActiveView( ) )
+		GetActiveView( )->SendMessage( VIEW_INFO_NOTIFY, wp, lp );
+	else
+		TRACE( "No Active View for Dockable message\n" );
 	return FALSE;
 }
 
@@ -328,6 +360,34 @@ void CMainFrame::OnViewCustomize()
 	CMFCToolBarsCustomizeDialog* pDlgCust = new CMFCToolBarsCustomizeDialog(this, TRUE /* scan menus */);
 	pDlgCust->EnableUserDefinedToolbars();
 	pDlgCust->Create();
+}
+
+BOOL CMainFrame::LoadFrame(UINT nIDResource, DWORD dwDefaultStyle, CWnd* pParentWnd, CCreateContext* pContext) 
+{
+	// base class does the real work
+
+	if (!CMDIFrameWndEx::LoadFrame(nIDResource, dwDefaultStyle, pParentWnd, pContext))
+	{
+		return FALSE;
+	}
+
+
+	// enable customization button for all user toolbars
+	BOOL bNameValid;
+	CString strCustomize;
+	bNameValid = strCustomize.LoadString(IDS_TOOLBAR_CUSTOMIZE);
+	ASSERT(bNameValid);
+
+	for (int i = 0; i < iMaxUserToolbars; i ++)
+	{
+		CMFCToolBar* pUserToolbar = GetUserToolBarByIndex(i);
+		if (pUserToolbar != NULL)
+		{
+			pUserToolbar->EnableCustomizeButton(TRUE, ID_VIEW_CUSTOMIZE, strCustomize);
+		}
+	}
+
+	return TRUE;
 }
 
 LRESULT CMainFrame::OnToolbarCreateNew(WPARAM wp,LPARAM lp)
@@ -423,34 +483,6 @@ void CMainFrame::OnApplicationLook(UINT id)
 void CMainFrame::OnUpdateApplicationLook(CCmdUI* pCmdUI)
 {
 	pCmdUI->SetRadio(theApp.m_nAppLook == pCmdUI->m_nID);
-}
-
-BOOL CMainFrame::LoadFrame(UINT nIDResource, DWORD dwDefaultStyle, CWnd* pParentWnd, CCreateContext* pContext) 
-{
-	// base class does the real work
-
-	if (!CMDIFrameWndEx::LoadFrame(nIDResource, dwDefaultStyle, pParentWnd, pContext))
-	{
-		return FALSE;
-	}
-
-
-	// enable customization button for all user toolbars
-	BOOL bNameValid;
-	CString strCustomize;
-	bNameValid = strCustomize.LoadString(IDS_TOOLBAR_CUSTOMIZE);
-	ASSERT(bNameValid);
-
-	for (int i = 0; i < iMaxUserToolbars; i ++)
-	{
-		CMFCToolBar* pUserToolbar = GetUserToolBarByIndex(i);
-		if (pUserToolbar != NULL)
-		{
-			pUserToolbar->EnableCustomizeButton(TRUE, ID_VIEW_CUSTOMIZE, strCustomize);
-		}
-	}
-
-	return TRUE;
 }
 
 

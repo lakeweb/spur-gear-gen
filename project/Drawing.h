@@ -15,6 +15,7 @@ class DrawingObects
 	layer_set_t& layers;
 	bg_point offset;
 	object_set_t primitives;
+	typedef object_set_t::iterator iterator;
 	//size_t id;
 
 public:
@@ -24,6 +25,9 @@ public:
 	{ }
 	void set_offset( const bg_point& pt ) { offset= pt; }
 	void push_back( const ObjectSet& obj ) { primitives.push_back( obj ); }
+	iterator begin( ) { return primitives.begin( ); }
+	iterator end( ) { return primitives.end( ); }
+	size_t size( ) const { return primitives.size( ); }
 	object_set_t& get_set( ) { return primitives; }
 	const layer_set_t& get_layers( ) const { return layers; }
 };
@@ -96,22 +100,6 @@ struct BrushInfo
 {
 	COLORREF color;
 	UINT	type;
-};
-
-// ..........................................................................
-struct DrawExtent
-{
-	CRect& rectClient;
-	long& of_x;
-	long& of_y;
-	double& zoom;
-
-	DrawExtent( CRect& rect, long& ix, long& iy, double& izoom )
-		:rectClient( rect )
-		,of_x( ix )
-		,of_y( iy )
-		,zoom( izoom )
-	{ }
 };
 
 // ..........................................................................

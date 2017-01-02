@@ -32,7 +32,7 @@ public:
 	COutputWnd();
 
 	void UpdateFonts();
-
+	void ClearBuildWindow( ) { m_wndOutputBuild.ClearList( ); }
 	void SetBuildText( const std::string& str );
 
 // Attributes

@@ -112,9 +112,6 @@
     <ClInclude Include="GearsDoc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GearsView.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -157,19 +154,43 @@
     <ClInclude Include="gear_gen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GearFrame.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\dxflib\dl_writer_ascii.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\dxflib\dl_dxf.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="dxf.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\typeswitch.h">
+    <ClInclude Include="GearDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CADView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GearsView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CADFrame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CADDoc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MemDC.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\HEWinApp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\xml.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\globals.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\dxflib\dl_writer_ascii.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\dxflib\dl_dxf.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\typeswitch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -184,9 +205,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GearsDoc.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GearsView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="FileView.cpp">
@@ -231,7 +249,22 @@
     <ClCompile Include="gear_gen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GearFrame.cpp">
+    <ClCompile Include="GearDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CADView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GearsView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CADFrame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CADDoc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\HEWinApp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

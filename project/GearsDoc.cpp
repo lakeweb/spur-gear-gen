@@ -13,11 +13,15 @@
 #include "Drawing.h"
 #include "dxf.h"
 #include "gear_gen.h"
+// ............................................................
+ObjectSet gear_gen_one( gear_params_t& gp );
+ObjectSet gear_generate( ObjectSet& tooth, gear_params_t& gp );
 
 #ifndef SHARED_HANDLERS
 #include "Gears.h"
 #endif
 
+#include "CADDoc.h"
 #include "GearsDoc.h"
 
 //#include <propkey.h>
@@ -29,15 +33,41 @@
 #endif
 
 // ..........................................................................
-IMPLEMENT_DYNCREATE( CGearsDoc, CDocument )
-BEGIN_MESSAGE_MAP( CGearsDoc, CDocument )
+IMPLEMENT_DYNCREATE( CGearsDoc, CADDoc )
+BEGIN_MESSAGE_MAP( CGearsDoc, CADDoc )
 	ON_COMMAND( ID_FILE_TEST, &CGearsDoc::OnFileTest )
 	ON_COMMAND( ID_FILE_G_CODE, &CGearsDoc::OnFileGCode )
+//	ON_NOTIFY( ID_GEAR_PARAM_CHANGED, 1, &CGearsDoc::OnCmdMsg )
 END_MESSAGE_MAP( )
+
+// ............................................................................
+//void CGearsDoc::OnGearParamChanged( NMHDR*, LRESULT* )
+//{
+//}
+
+// ..........................................................................
+BOOL CGearsDoc::OnCmdMsg( UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo )
+{
+	if ( HIWORD(nCode) == WM_NOTIFY )
+	{
+		LPNMHDR pHdr= ((AFX_NOTIFY*)pExtra)->pNMHDR;
+		switch( LOWORD( nCode ) )
+		{
+		case ID_GEAR_PARAM_CHANGED:
+			auto pg= ( pgear_params_t )((PNMHDROBJECT)pHdr)->pObject;
+			test( pg );
+			test( );
+			UpdateAllViews( nullptr, ID_UPDATE_VIEW_TOFIT );
+			NMHDR* pnm= ((AFX_NOTIFY*)pExtra)->pNMHDR;
+			//TRACE( "doc: %x - %x - %x low: %x\n", nID, nCode, pnm->code, LOWORD( nCode ) );
+		}
+	}
+	return CDocument::OnCmdMsg( nID, nCode, pExtra, pHandlerInfo );
+}
 
 // ..........................................................................
 CGearsDoc::CGearsDoc( )
-	:drawobj( layers )
+	//:drawobj( layers )
 {
 }
 
@@ -55,11 +85,29 @@ void CGearsDoc::OnFileGCode( )
 	gc.push_back( sp_gcitem_t( new gc0 ) );
 }
 
+template< typename Type >
+inline SP_BaseItem  make_sp( Type& obj ) { return boost::make_shared< Type >( obj ); }
 // ..........................................................................
 void CGearsDoc::test( )
 {
+	bg_box box= get_rect_hull( drawobj.get_set( ) );
+	RectItem ri( box );
+	GEO_NUM bx= ri.width( ) / 4;
+	ri.get_min_point( ).x-= bx;
+	ri.get_max_point( ).x+= bx;
+	GEO_NUM by= ri.height( ) / 4;
+	ri.get_min_point( ).y-= by;
+	ri.get_max_point( ).y+= by;
+	draw_extents= ri.get_bg_box( );
+	drawobj.get_set( ).back( ).push_back( RectItem( ri ).get_SP( ) );
+}
+
+// ..........................................................................
+void CGearsDoc::test( pgear_params_t pg )
+{
 	//as if we have loaded/spec'd a gear.......
 
+	drawobj.get_set( ).clear( );
 	ObjectSet visuals( 0 );
 
 	//small hole at center
@@ -86,10 +134,10 @@ void CGearsDoc::test( )
 #endif
 
 	//create a tooth
-	auto tooth= gear_gen_one( params );
+	auto tooth= gear_gen_one( *pg );
 
 	//generate gear from tooth
-	auto gear= gear_generate( tooth, params );
+	auto gear= gear_generate( tooth, *pg );
 	gear.set_id( 1 );
 	drawobj.push_back( gear );
 
@@ -111,6 +159,8 @@ void CGearsDoc::test( )
 	// working ..........................................
 	layers.insert( layer_t( 0, L"Zero Layer" ) );
 	layers.insert( layer_t( 1, L"Milling" ) );
+
+	test( );
 }
 
 // ..........................................................................
@@ -118,8 +168,6 @@ BOOL CGearsDoc::OnNewDocument( )
 {
 	if( ! CDocument::OnNewDocument( ) )
 		return FALSE;
-
-	test( );
 
 	return TRUE;
 }
@@ -142,7 +190,11 @@ LRESULT CGearsDoc::OnLayerEnable(WPARAM, LPARAM )
 
 void CGearsDoc::OnFileTest( )
 {
-	DXF_WriteFile( bfs::path( "test2.dxf"), drawobj );
+	if( ! drawobj.size( ) )
+		return;
+	DrawingObects a_gear( layers );
+	a_gear.get_set( ).push_back( ObjectSet( drawobj.get_set( ).front( ) ) );
+	DXF_WriteFile( bfs::path( "test2.dxf"), a_gear );
 	return;
 
 }
@@ -173,14 +225,6 @@ void CGearsDoc::Dump(CDumpContext& dc) const
 	CDocument::Dump(dc);
 }
 #endif //_DEBUG
-
-// ..........................................................................
-BOOL CGearsDoc::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo)
-{
-	//TRACE( "doc: %x\n", nID );
-
-	return CDocument::OnCmdMsg( nID, nCode, pExtra, pHandlerInfo );
-}
 
 #ifdef SHARED_HANDLERS
 

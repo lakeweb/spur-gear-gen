@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Root>
+    <test>this is a test</test>
+    <RecentFileList>
+        <maxMRU>15</maxMRU>
+        <projMRU>C:\cpp\pcb\docs\usb-gpio2.pcb</projMRU>
+    </RecentFileList>
+</Root>

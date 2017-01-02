@@ -46,8 +46,8 @@ void DrawArea::DrawObjects( const DrawingObects& objs )
 	for( auto bit= objs.primitives.begin( ); bit != objs.primitives.end( ); ++bit )
 	{
 		auto layer= layers.find( layer_t( bit->GetLayer( ), nullptr ) );
-		if( layer == layers.end( ) || ! layer->enabled )
-			continue;
+		//if( layer == layers.end( ) || ! layer->enabled )
+		//	continue;
 		for( auto it= bit->begin( ); it != bit->end( ); ++it )
 		{
 			DrawObject( *it->get( ) );

@@ -152,3 +152,61 @@ SP_BaseItem transform_object( const SP_BaseItem& input, bg_point offset )
 	return pt;
 }
 
+// ..................................................................
+bg_box get_rect_hull( const SP_BaseItem& obs )
+{
+	bg_box box;
+	using boost::geometry::expand;
+	using boost::geometry::envelope;
+
+	typecase( *obs,
+		[ & ]( PointItem& pa ) {
+		box.max_corner( ).set( pa );
+		box.min_corner( ).set( pa );
+	},
+		[ & ]( LineItem& pa ) {
+		envelope< bg_line >( pa, box );
+		//box.max_corner( ).set( pa.get_bg_line( ).first );
+		//box.min_corner( ).set( pa.get_bg_line( ).first );
+		expand( box, pa.get_bg_line( ) );
+	},
+		[ & ]( const ArcItem& pa ) {
+	},
+		[ & ]( const RectItem& pa ) {
+	},
+		[ & ]( const EllipesItem& pa ) {
+	},
+		[ & ]( const BezierCubeItem& pa ) {
+	},
+		[ & ]( const PolyItem& pa ) {
+		auto poly= SP_PolyItem( boost::make_shared< PolyItem >( ) );
+		for( auto it : pa )
+			expand( box, it );
+	});
+	return box;
+}
+
+// ..................................................................
+bg_box get_rect_hull( sp_obj_vect_t& obs )
+{
+	bg_box box= get_rect_hull( obs.front( ) );
+
+	for( auto item : obs )
+	{
+		boost::geometry::expand( box, get_rect_hull( item ) );
+	}
+	return box;
+}
+
+// ..................................................................
+bg_box get_rect_hull( object_set_t& objects )
+{
+	bg_box box;
+	for( auto& set : objects )
+	{
+		bg_box bt= get_rect_hull( set.get_set( ) );
+		boost::geometry::expand( box, bt );
+	}
+	return box;
+}
+

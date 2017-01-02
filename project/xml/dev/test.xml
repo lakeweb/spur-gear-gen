@@ -1,0 +1,36 @@
+<?xml version="1.0" ?>
+<root>
+    <General type="this">This is General this&#x0A;&#x0A; &#x0A;
+        <something>This is something&#x0A;&#x09;&#x09;&#x09;&#x0A; &#x0A;
+            <some_sub />
+        </something>
+    </General>
+    <General type="that">This is General that&#x0A;&#x09;</General>
+    <G2>This is General that&#x0A;&#x09;&#x09;&#x0A; &#x0A;
+        <test uid="1">test</test>
+        <test uid="2">test</test>
+        <test uid="3">test</test>
+    </G2>
+    <reports>
+        <reportIndex>5</reportIndex>
+        <report>testReport1&#x0A;&#x09;&#x09;&#x09;&#x0A; &#x0A;
+            <report_sub>Report Sub Test1</report_sub>
+        </report>
+        <report>testReport2</report>
+        <report>testReport3</report>
+        <test uid="4">test</test>
+    </reports>
+    <moreStuff>
+        <subStuff>
+            <testing type="1">this is one of one</testing>
+            <testing type="2">this is one</testing>
+            <testing type="2">this is one</testing>
+            <testing type="2">this is one</testing>
+            <testing type="1">this is two of one</testing>
+        </subStuff>
+        <testing type="1">this is not of one</testing>
+    </moreStuff>
+    <subStuff>Outside the scope of moreStuff but in subStuff&#x0A;&#x09;&#x09;&#x0A; &#x0A;
+        <testing type="1">this is not in moreStuff</testing>
+    </subStuff>
+</root>

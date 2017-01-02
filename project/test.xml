@@ -1,0 +1,22 @@
+<openscam>
+  <!-- Note, all values are in mm regardless of 'units' option. -->
+  <!-- NC Files -->
+  <nc-files>
+    test.nc
+  </nc-files>
+
+  <!-- Project -->
+  <units v='INCH'/>
+
+  <!-- Renderer -->
+  <resolution v='0.06434'/>
+
+  <!-- Workpiece -->
+  <automatic-workpiece v='false'/>
+  <workpiece-max v='(4.6739,4.6739,-1.338)'/>
+  <workpiece-min v='(-4.6739,-4.6739,-2.1)'/>
+
+  <tool_table>
+    <tool length='10' number='1' radius='0.125' shape='CYLINDRICAL' units='MM'/>
+  </tool_table>
+</openscam>

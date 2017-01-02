@@ -7,15 +7,16 @@
 #include "Resource.h"
 #include "Gears.h"
 
+// ..............................................................................
 enum layer_img_id {
 	eye_on,
 	eye_off,
 };
 
+// ..............................................................................
 class LayerViewMenuButton : public CMFCToolBarMenuButton
 {
 	friend class LayerTreeView;
-
 	DECLARE_SERIAL(LayerViewMenuButton)
 
 public:
@@ -37,21 +38,19 @@ public:
 	}
 };
 
-IMPLEMENT_SERIAL(LayerViewMenuButton, CMFCToolBarMenuButton, 1)
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
-
-LayerTreeView::LayerTreeView()
+// ..............................................................................
+LayerTreeView::LayerTreeView( )
 {
 	m_nCurrSort = ID_SORTING_GROUPBYTYPE;
 }
 
-LayerTreeView::~LayerTreeView()
+// ..............................................................................
+LayerTreeView::~LayerTreeView( )
 {
 }
 
+// ..............................................................................
+IMPLEMENT_SERIAL(LayerViewMenuButton, CMFCToolBarMenuButton, 1)
 BEGIN_MESSAGE_MAP( LayerTreeView, CDockablePane )
 	ON_WM_CREATE( )
 	ON_WM_SIZE( )
@@ -75,10 +74,7 @@ BEGIN_MESSAGE_MAP( LayerTreeView, CDockablePane )
 	ON_WM_LBUTTONDOWN( )
 END_MESSAGE_MAP( )
 
-/////////////////////////////////////////////////////////////////////////////
-// LayerTreeView message handlers
-
-// ...............................................................
+// ..............................................................................
 void LayerTreeView::OnLVNLButtonDown( NMHDR *pNMHDR, LRESULT *pResult )
 {
 	TREECLICKA& info= *reinterpret_cast< TREECLICKA* >( pNMHDR );
@@ -111,6 +107,7 @@ void LayerTreeView::OnLVNLButtonDown( NMHDR *pNMHDR, LRESULT *pResult )
 //	CDockablePane::OnLButtonDown( info.hdr., point);
 }
 
+// ..............................................................................
 int LayerTreeView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
 	if (CDockablePane::OnCreate(lpCreateStruct) == -1)
@@ -159,17 +156,26 @@ int LayerTreeView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	// Fill in some static tree view data (dummy code, nothing magic here)
 	//FillClassView();
+	HTREEITEM hRoot = layer_tree_view.InsertItem(_T("FakeApp files"), 0, 0);
+	layer_tree_view.SetItemState(hRoot, TVIS_BOLD, TVIS_BOLD);
+
+	HTREEITEM hSrc = layer_tree_view.InsertItem(_T("FakeApp Source Files"), 0, 0, hRoot);
+
+	layer_tree_view.InsertItem(_T("FakeApp.cpp"), 1, 1, hSrc);
+	layer_tree_view.InsertItem(_T("FakeApp.rc"), 1, 1, hSrc);
+	layer_tree_view.InsertItem(_T("FakeAppDoc.cpp"), 1, 1, hSrc);
 
 	return 0;
 }
 
+// ..............................................................................
 void LayerTreeView::OnSize(UINT nType, int cx, int cy)
 {
 	CDockablePane::OnSize(nType, cx, cy);
 	AdjustLayout();
 }
 
-// ............................................................................
+// ..............................................................................
 void LayerTreeView::OnLvnItemchangedEventlist( NMHDR *pNMHDR, LRESULT *pResult )
 {
 	TRACE( "OnLvnItemchangedEventlist begin\n" );
@@ -185,13 +191,13 @@ void LayerTreeView::OnLvnItemchangedEventlist( NMHDR *pNMHDR, LRESULT *pResult )
 		TreeView_HitTest( pNMHDR->hwndFrom, &ht );
 
 		if( TVHT_ONITEMSTATEICON & ht.flags )
-			;
+			; //TODO????????
 		TRACE( "OnLvnItemchangedEventlist: %x\n", ht.flags );
 			//PostMessage( ID_TVN_CHECKCHANGED, 0, (LPARAM)ht.hItem );
 	}
 }
 
-//..................................................................................
+// ..............................................................................
 void LayerTreeView::LoadLayerView( layer_set_t& layers )
 {
 	layer_tree_view.DeleteAllItems( );
@@ -207,6 +213,7 @@ void LayerTreeView::LoadLayerView( layer_set_t& layers )
 	cur.Expand( );
 }
 
+// ..............................................................................
 void LayerTreeView::OnContextMenu(CWnd* pWnd, CPoint point)
 {
 	CTreeCtrl* pWndTree = (CTreeCtrl*)&layer_tree_view;
@@ -250,6 +257,7 @@ void LayerTreeView::OnContextMenu(CWnd* pWnd, CPoint point)
 	}
 }
 
+// ..............................................................................
 void LayerTreeView::AdjustLayout( )
 {
 	if (GetSafeHwnd() == NULL)
@@ -266,11 +274,13 @@ void LayerTreeView::AdjustLayout( )
 	layer_tree_view.SetWindowPos(NULL, rectClient.left + 1, rectClient.top + cyTlb + 1, rectClient.Width() - 2, rectClient.Height() - cyTlb - 2, SWP_NOACTIVATE | SWP_NOZORDER);
 }
 
+// ..............................................................................
 BOOL LayerTreeView::PreTranslateMessage(MSG* pMsg)
 {
 	return CDockablePane::PreTranslateMessage(pMsg);
 }
 
+// ..............................................................................
 void LayerTreeView::OnSort( UINT id )
 {
 	if (m_nCurrSort == id)
@@ -290,36 +300,40 @@ void LayerTreeView::OnSort( UINT id )
 	}
 }
 
+// ..............................................................................
 void LayerTreeView::OnUpdateSort(CCmdUI* pCmdUI)
 {
 	pCmdUI->SetCheck(pCmdUI->m_nID == m_nCurrSort);
 }
 
+// ..............................................................................
 void LayerTreeView::OnClassAddMemberFunction()
 {
 	AfxMessageBox(_T("Add member function..."));
 }
 
+// ..............................................................................
 void LayerTreeView::OnClassAddMemberVariable()
 {
-	// TODO: Add your command handler code here
 }
 
+// ..............................................................................
 void LayerTreeView::OnClassDefinition()
 {
-	// TODO: Add your command handler code here
 }
 
+// ..............................................................................
 void LayerTreeView::OnClassProperties()
 {
-	// TODO: Add your command handler code here
 }
 
+// ..............................................................................
 void LayerTreeView::OnNewFolder()
 {
 	AfxMessageBox(_T("New Folder..."));
 }
 
+// ..............................................................................
 void LayerTreeView::OnPaint()
 {
 	CPaintDC dc(this); // device context for painting
@@ -332,6 +346,7 @@ void LayerTreeView::OnPaint()
 	dc.Draw3dRect( rectTree, ::GetSysColor( COLOR_3DSHADOW ), ::GetSysColor( COLOR_3DSHADOW ) );
 }
 
+// ..............................................................................
 void LayerTreeView::OnSetFocus(CWnd* pOldWnd)
 {
 	CDockablePane::OnSetFocus(pOldWnd);
@@ -339,6 +354,7 @@ void LayerTreeView::OnSetFocus(CWnd* pOldWnd)
 	layer_tree_view.SetFocus();
 }
 
+// ..............................................................................
 void LayerTreeView::OnChangeVisualStyle()
 {
 	m_ClassViewImages.DeleteImageList();

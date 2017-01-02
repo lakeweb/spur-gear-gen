@@ -1,0 +1,92 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24627.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tinyxml", "tinyxml\tinyxml_lib.vcxproj", "{73AE762F-C660-4289-B0E1-9105088E37C8}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "hexml_10", "hexml\hexml.vcxproj", "{CA79A07E-F34C-47E4-BF88-4A39774049F0}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dev", "dev\dev.vcxproj", "{4E180288-F113-4D60-94CD-DDFED45E307D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug__dll|Win32 = Debug__dll|Win32
+		Debug_dll|Win32 = Debug_dll|Win32
+		debug_lib|Win32 = debug_lib|Win32
+		Debug|Win32 = Debug|Win32
+		DebugU_dll|Win32 = DebugU_dll|Win32
+		DebugUni_dll|Win32 = DebugUni_dll|Win32
+		Release_dll|Win32 = Release_dll|Win32
+		Release_lib|Win32 = Release_lib|Win32
+		Release|Win32 = Release|Win32
+		testing|Win32 = testing|Win32
+		tiny_lib|Win32 = tiny_lib|Win32
+		tiny_libd|Win32 = tiny_libd|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{73AE762F-C660-4289-B0E1-9105088E37C8}.Debug__dll|Win32.ActiveCfg = Debug__dll|Win32
+		{73AE762F-C660-4289-B0E1-9105088E37C8}.Debug__dll|Win32.Build.0 = Debug__dll|Win32
+		{73AE762F-C660-4289-B0E1-9105088E37C8}.Debug_dll|Win32.ActiveCfg = tiny_libd|Win32
+		{73AE762F-C660-4289-B0E1-9105088E37C8}.Debug_dll|Win32.Build.0 = tiny_libd|Win32
+		{73AE762F-C660-4289-B0E1-9105088E37C8}.debug_lib|Win32.ActiveCfg = tiny_libd|Win32
+		{73AE762F-C660-4289-B0E1-9105088E37C8}.Debug|Win32.ActiveCfg = tiny_libd|Win32
+		{73AE762F-C660-4289-B0E1-9105088E37C8}.Debug|Win32.Build.0 = tiny_libd|Win32
+		{73AE762F-C660-4289-B0E1-9105088E37C8}.DebugU_dll|Win32.ActiveCfg = DebugU_dll|Win32
+		{73AE762F-C660-4289-B0E1-9105088E37C8}.DebugU_dll|Win32.Build.0 = DebugU_dll|Win32
+		{73AE762F-C660-4289-B0E1-9105088E37C8}.DebugUni_dll|Win32.ActiveCfg = DebugUni_dll|Win32
+		{73AE762F-C660-4289-B0E1-9105088E37C8}.DebugUni_dll|Win32.Build.0 = DebugUni_dll|Win32
+		{73AE762F-C660-4289-B0E1-9105088E37C8}.Release_dll|Win32.ActiveCfg = tiny_lib|Win32
+		{73AE762F-C660-4289-B0E1-9105088E37C8}.Release_dll|Win32.Build.0 = tiny_lib|Win32
+		{73AE762F-C660-4289-B0E1-9105088E37C8}.Release_lib|Win32.ActiveCfg = tiny_lib|Win32
+		{73AE762F-C660-4289-B0E1-9105088E37C8}.Release|Win32.ActiveCfg = tiny_lib|Win32
+		{73AE762F-C660-4289-B0E1-9105088E37C8}.Release|Win32.Build.0 = tiny_lib|Win32
+		{73AE762F-C660-4289-B0E1-9105088E37C8}.testing|Win32.ActiveCfg = tiny_libd|Win32
+		{73AE762F-C660-4289-B0E1-9105088E37C8}.testing|Win32.Build.0 = tiny_libd|Win32
+		{73AE762F-C660-4289-B0E1-9105088E37C8}.tiny_lib|Win32.ActiveCfg = tiny_lib|Win32
+		{73AE762F-C660-4289-B0E1-9105088E37C8}.tiny_lib|Win32.Build.0 = tiny_lib|Win32
+		{73AE762F-C660-4289-B0E1-9105088E37C8}.tiny_libd|Win32.ActiveCfg = tiny_libd|Win32
+		{73AE762F-C660-4289-B0E1-9105088E37C8}.tiny_libd|Win32.Build.0 = tiny_libd|Win32
+		{CA79A07E-F34C-47E4-BF88-4A39774049F0}.Debug__dll|Win32.ActiveCfg = Debug__dll|Win32
+		{CA79A07E-F34C-47E4-BF88-4A39774049F0}.Debug__dll|Win32.Build.0 = Debug__dll|Win32
+		{CA79A07E-F34C-47E4-BF88-4A39774049F0}.Debug_dll|Win32.ActiveCfg = Debug_dll|Win32
+		{CA79A07E-F34C-47E4-BF88-4A39774049F0}.Debug_dll|Win32.Build.0 = Debug_dll|Win32
+		{CA79A07E-F34C-47E4-BF88-4A39774049F0}.debug_lib|Win32.ActiveCfg = debug_lib|Win32
+		{CA79A07E-F34C-47E4-BF88-4A39774049F0}.debug_lib|Win32.Build.0 = debug_lib|Win32
+		{CA79A07E-F34C-47E4-BF88-4A39774049F0}.Debug|Win32.ActiveCfg = Debug_dll|Win32
+		{CA79A07E-F34C-47E4-BF88-4A39774049F0}.Debug|Win32.Build.0 = Debug_dll|Win32
+		{CA79A07E-F34C-47E4-BF88-4A39774049F0}.DebugU_dll|Win32.ActiveCfg = DebugU_dll|Win32
+		{CA79A07E-F34C-47E4-BF88-4A39774049F0}.DebugU_dll|Win32.Build.0 = DebugU_dll|Win32
+		{CA79A07E-F34C-47E4-BF88-4A39774049F0}.DebugUni_dll|Win32.ActiveCfg = DebugUni_dll|Win32
+		{CA79A07E-F34C-47E4-BF88-4A39774049F0}.DebugUni_dll|Win32.Build.0 = DebugUni_dll|Win32
+		{CA79A07E-F34C-47E4-BF88-4A39774049F0}.Release_dll|Win32.ActiveCfg = Release_dll|Win32
+		{CA79A07E-F34C-47E4-BF88-4A39774049F0}.Release_dll|Win32.Build.0 = Release_dll|Win32
+		{CA79A07E-F34C-47E4-BF88-4A39774049F0}.Release_lib|Win32.ActiveCfg = Release_lib|Win32
+		{CA79A07E-F34C-47E4-BF88-4A39774049F0}.Release_lib|Win32.Build.0 = Release_lib|Win32
+		{CA79A07E-F34C-47E4-BF88-4A39774049F0}.Release|Win32.ActiveCfg = Release_dll|Win32
+		{CA79A07E-F34C-47E4-BF88-4A39774049F0}.Release|Win32.Build.0 = Release_dll|Win32
+		{CA79A07E-F34C-47E4-BF88-4A39774049F0}.testing|Win32.ActiveCfg = Debug_dll|Win32
+		{CA79A07E-F34C-47E4-BF88-4A39774049F0}.testing|Win32.Build.0 = Debug_dll|Win32
+		{CA79A07E-F34C-47E4-BF88-4A39774049F0}.tiny_lib|Win32.ActiveCfg = Release_dll|Win32
+		{CA79A07E-F34C-47E4-BF88-4A39774049F0}.tiny_libd|Win32.ActiveCfg = Release_dll|Win32
+		{4E180288-F113-4D60-94CD-DDFED45E307D}.Debug__dll|Win32.ActiveCfg = Debug__dll|Win32
+		{4E180288-F113-4D60-94CD-DDFED45E307D}.Debug__dll|Win32.Build.0 = Debug__dll|Win32
+		{4E180288-F113-4D60-94CD-DDFED45E307D}.Debug_dll|Win32.ActiveCfg = Debug|Win32
+		{4E180288-F113-4D60-94CD-DDFED45E307D}.debug_lib|Win32.ActiveCfg = Debug|Win32
+		{4E180288-F113-4D60-94CD-DDFED45E307D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{4E180288-F113-4D60-94CD-DDFED45E307D}.Debug|Win32.Build.0 = Debug|Win32
+		{4E180288-F113-4D60-94CD-DDFED45E307D}.DebugU_dll|Win32.ActiveCfg = DebugU_dll|Win32
+		{4E180288-F113-4D60-94CD-DDFED45E307D}.DebugU_dll|Win32.Build.0 = DebugU_dll|Win32
+		{4E180288-F113-4D60-94CD-DDFED45E307D}.DebugUni_dll|Win32.ActiveCfg = DebugUni_dll|Win32
+		{4E180288-F113-4D60-94CD-DDFED45E307D}.Release_dll|Win32.ActiveCfg = Release|Win32
+		{4E180288-F113-4D60-94CD-DDFED45E307D}.Release_lib|Win32.ActiveCfg = Release|Win32
+		{4E180288-F113-4D60-94CD-DDFED45E307D}.Release|Win32.ActiveCfg = Release|Win32
+		{4E180288-F113-4D60-94CD-DDFED45E307D}.Release|Win32.Build.0 = Release|Win32
+		{4E180288-F113-4D60-94CD-DDFED45E307D}.testing|Win32.ActiveCfg = Debug|Win32
+		{4E180288-F113-4D60-94CD-DDFED45E307D}.testing|Win32.Build.0 = Debug|Win32
+		{4E180288-F113-4D60-94CD-DDFED45E307D}.tiny_lib|Win32.ActiveCfg = Release|Win32
+		{4E180288-F113-4D60-94CD-DDFED45E307D}.tiny_libd|Win32.ActiveCfg = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

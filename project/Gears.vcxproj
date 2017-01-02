@@ -53,14 +53,15 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(LOCAL_INCLUDE);$(BOOST_ROOT);./include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(BOOST_ROOT);./include</AdditionalIncludeDirectories>
       <AdditionalOptions>-Zm255 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(BOOST_LIB);$(LOCAL_LIB)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>dxfd.lib;libdxfrwd.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(BOOST_LIB);./lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -81,7 +82,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(LOCAL_INCLUDE);$(BOOST_ROOT);./include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(BOOST_ROOT);./include</AdditionalIncludeDirectories>
       <AdditionalOptions>-Zm255 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
@@ -89,7 +90,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(BOOST_LIB);$(LOCAL_LIB)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(BOOST_LIB);./lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>dxf.lib</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
     </Link>
@@ -135,23 +136,30 @@
     <None Include="UserImages.bmp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\dxflib\dl_dxf.h" />
-    <ClInclude Include="..\include\dxflib\dl_writer_ascii.h" />
-    <ClInclude Include="..\include\typeswitch.h" />
+    <ClInclude Include="CADDoc.h" />
+    <ClInclude Include="CADView.h" />
     <ClInclude Include="cnc.h" />
     <ClInclude Include="Drawing.h" />
     <ClInclude Include="dxf.h" />
     <ClInclude Include="FileView.h" />
-    <ClInclude Include="GearFrame.h" />
+    <ClInclude Include="GearDialog.h" />
+    <ClInclude Include="CADFrame.h" />
     <ClInclude Include="Gears.h" />
     <ClInclude Include="GearsDoc.h" />
     <ClInclude Include="GearsView.h" />
     <ClInclude Include="gear_gen.h" />
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="include\ctrlext.h" />
+    <ClInclude Include="include\dxflib\dl_dxf.h" />
+    <ClInclude Include="include\dxflib\dl_writer_ascii.h" />
+    <ClInclude Include="include\globals.h" />
+    <ClInclude Include="include\HEWinApp.h" />
     <ClInclude Include="include\std_share.h" />
+    <ClInclude Include="include\typeswitch.h" />
+    <ClInclude Include="include\xml.h" />
     <ClInclude Include="LayerView.h" />
     <ClInclude Include="MainFrm.h" />
+    <ClInclude Include="MemDC.h" />
     <ClInclude Include="Objects.h" />
     <ClInclude Include="OutputWnd.h" />
     <ClInclude Include="PropertiesWnd.h" />
@@ -162,6 +170,8 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CADDoc.cpp" />
+    <ClCompile Include="CADView.cpp" />
     <ClCompile Include="cnc.cpp">
       <RuntimeLibrary Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
@@ -176,7 +186,8 @@
     <ClCompile Include="FileView.cpp">
       <RuntimeLibrary Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
-    <ClCompile Include="GearFrame.cpp">
+    <ClCompile Include="GearDialog.cpp" />
+    <ClCompile Include="CADFrame.cpp">
       <RuntimeLibrary Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <ClCompile Include="Gears.cpp">
@@ -185,9 +196,7 @@
     <ClCompile Include="GearsDoc.cpp">
       <RuntimeLibrary Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
-    <ClCompile Include="GearsView.cpp">
-      <RuntimeLibrary Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MultiThreadedDLL</RuntimeLibrary>
-    </ClCompile>
+    <ClCompile Include="GearsView.cpp" />
     <ClCompile Include="gear_gen.cpp">
       <RuntimeLibrary Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
@@ -220,6 +229,7 @@
     <ClCompile Include="source\ctrlext.cpp">
       <RuntimeLibrary Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
+    <ClCompile Include="source\HEWinApp.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

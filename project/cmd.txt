@@ -1,0 +1,2 @@
+powershell -noexeit -executionpolicy bypass -File ./clean.ps1
+
