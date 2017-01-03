@@ -27,3 +27,26 @@
 *.exe
 *.out
 *.app
+
+# Cases for this project - spur-gear-gen
+lib/
+Release/
+Debug/
+
+project/.vs/
+project/Debug/
+project/Gears.VC.db
+project/dxflib/dxflib-3.7.5-src/dfxlib_vc/.vs/
+project/dxflib/dxflib-3.7.5-src/dfxlib_vc/Debug/
+project/dxflib/dxflib-3.7.5-src/dfxlib_vc/dfxlib_vc.VC.db
+project/dxflib/dxflib-3.7.5-src/dfxlib_vc/ipch/
+project/dxflib/dxflib-3.7.5-src/dfxlib_vc/x64/
+project/dxflib/dxflib-3.7.5-src/lib_gen/Debug/
+project/dxflib/dxflib-3.7.5-src/lib_gen/x64/
+project/lib/
+project/xml/.vs/
+project/xml/dev/Debug/
+project/xml/hexml/Debug_dll/
+project/xml/lib/
+project/xml/tinyxml/tiny_libd/
+project/xml/xml.VC.db

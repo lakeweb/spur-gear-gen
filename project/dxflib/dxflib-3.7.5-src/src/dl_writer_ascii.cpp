@@ -22,6 +22,7 @@
 ** not clear to you.
 **
 **********************************************************************/
+#define _CRT_SECURE_NO_WARNINGS
 
 #if _MSC_VER > 1000
 #pragma once

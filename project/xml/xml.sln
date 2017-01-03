@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24627.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tinyxml", "tinyxml\tinyxml_lib.vcxproj", "{73AE762F-C660-4289-B0E1-9105088E37C8}"
 EndProject
@@ -73,7 +73,6 @@ Global
 		{4E180288-F113-4D60-94CD-DDFED45E307D}.Debug_dll|Win32.ActiveCfg = Debug|Win32
 		{4E180288-F113-4D60-94CD-DDFED45E307D}.debug_lib|Win32.ActiveCfg = Debug|Win32
 		{4E180288-F113-4D60-94CD-DDFED45E307D}.Debug|Win32.ActiveCfg = Debug|Win32
-		{4E180288-F113-4D60-94CD-DDFED45E307D}.Debug|Win32.Build.0 = Debug|Win32
 		{4E180288-F113-4D60-94CD-DDFED45E307D}.DebugU_dll|Win32.ActiveCfg = DebugU_dll|Win32
 		{4E180288-F113-4D60-94CD-DDFED45E307D}.DebugU_dll|Win32.Build.0 = DebugU_dll|Win32
 		{4E180288-F113-4D60-94CD-DDFED45E307D}.DebugUni_dll|Win32.ActiveCfg = DebugUni_dll|Win32

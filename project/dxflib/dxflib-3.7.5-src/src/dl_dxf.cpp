@@ -21,6 +21,7 @@
 ** not clear to you.
 **
 **********************************************************************/
+#define _CRT_SECURE_NO_WARNINGS
 
 #include "dl_dxf.h"
 
