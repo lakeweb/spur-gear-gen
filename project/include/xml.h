@@ -185,12 +185,12 @@ public:
 	XMLNODE GetElementValue( LPCXSTR tagName, COleCurrency& value );
 	XMLNODE GetElementValue( LPCXSTR tagName, COleDateTime& value );
 	//XMLNODE GetElementValue_x( LPCXSTR tagName, LOGFONT& value );
-	XMLNODE GetElementValue( LPCXSTR tagName, COLORREF& value, COLORREF defaultVal= RGB( 255, 255, 255 ) );
+	//XMLNODE GetElementValue( LPCXSTR tagName, COLORREF& value, COLORREF defaultVal= RGB( 255, 255, 255 ) );
 	void GetXMLWindowPlacement( WINDOWPLACEMENT* place, LPCXSTR name= _X("WindowPlacement") );
 #endif
 #ifdef UNICODE
 	XMLNODE GetElementValue( LPCTSTR tagName, long& value, long dval= 0 ) { return GetElementValue( XML_TOUTF8( tagName ), value, dval ); }
-	XMLNODE GetElementValue( LPCTSTR tagName, DWORD& value, DWORD dval= 0 ) { return GetElementValue( XML_TOUTF8( tagName ), value, dval ); }
+	XMLNODE GetElementValue( LPCTSTR tagName, DWORD& value, DWORD dval= 0 ) { return GetElementValue( XML_TOUTF8( tagName ), (long&)value, (long)dval ); }
 	XMLNODE GetElementValue( LPCTSTR tagName, RECT& value, RECT dval= CRect( 0, 0, 0, 0 ) ) { return GetElementValue( XML_TOUTF8( tagName ), value, dval ); }
 	XMLNODE SetElementValue( LPCTSTR tagName, long value ) { return SetElementValue( XML_TOUTF8( tagName ), value ); }
 	XMLNODE SetElementValue( LPCTSTR tagName, DWORD value ) { return SetElementValue( XML_TOUTF8( tagName ), (long)value ); }

@@ -15,6 +15,26 @@
 /*
 CSettingsStoreSP is a singleton class that manages CSettingsStore
 
+(1) derive yoru winapp from HEWinApp
+(2) call HEWinApp::InitInstance and HEWinApp::ExitInstance(...)
+(3) BEGIN_MESSAGE_MAP( YourApp, HEWinApp )
+(4) DO NOT USE SetRegistryKey(...) and LoadStdProfileSettings(...)
+	in InitInstance
+
+TODO these memory leaks come from using this store
+	Later as memory leaks on close are harmless
+	Some say, 'don't bother to delete stuff on app exit.'
+Detected memory leaks!
+Dumping objects ->
+f:\dd\vctools\vc7libs\ship\atlmfc\src\mfc\afxkeyboardmanager.cpp(445) : {39980} normal block at 0x006A5D48, 84 bytes long.
+Data: <  N     O     S > 09 00 4E 00 00 E1 09 00 4F 00 01 E1 09 00 53 00 
+f:\dd\vctools\vc7libs\ship\atlmfc\src\mfc\afxkeyboardmanager.cpp(445) : {39978} normal block at 0x006A6248, 84 bytes long.
+Data: <  N     O     S > 09 00 4E 00 00 E1 09 00 4F 00 01 E1 09 00 53 00 
+f:\dd\vctools\vc7libs\ship\atlmfc\src\mfc\afxvisualmanagervs2008.cpp(30) : {4059} client block at 0x00714468, subtype c0, 560 bytes long.
+f:\dd\vctools\vc7libs\ship\atlmfc\src\mfc\dumpcont.cpp(23) : atlTraceGeneral - a CMFCVisualManagerVS2008 object at $00714468, 560 bytes long
+
+
+
 */
 #pragma once
 
@@ -90,11 +110,11 @@ public:
 	virtual BOOL Read(LPCTSTR lpszValueName, CObject*& pObj);
 
 protected:
-	ATL::CRegKey m_reg;
-	CString m_strPath;
-	BOOL    m_bReadOnly;
-	BOOL    m_bAdmin;
-	DWORD   m_dwUserData;
+	//ATL::CRegKey m_reg;
+	//CString m_strPath;
+	//BOOL    m_bReadOnly;
+	//BOOL    m_bAdmin;
+	//DWORD   m_dwUserData;
 };
 
 // .....................................................................

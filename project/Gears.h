@@ -8,13 +8,13 @@
 #endif
 
 #include "resource.h"       // main symbols
-
+#include "HEWinApp.h"
 
 // CGearsApp:
 // See Gears.cpp for the implementation of this class
 //
 
-class CGearsApp : public CWinAppEx
+class CGearsApp : public HEWinApp
 {
 public:
 	CGearsApp();

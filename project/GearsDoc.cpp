@@ -117,21 +117,12 @@ void CGearsDoc::test( pgear_params_t pg )
 		visuals.push_back( outside_cut );
 	}
 
-#if 0
-	visuals.set_layer( 0 );
-	//spec the gear
-	gear_params_t params(
-		20,					//tooth count
-		14.50 * PI / 180,	//presure angle in radians
-		5					//diametrical pitch
-	);
-#else
+	//not used right now
 	gear_params_t params(
 		22,		//tooth count
 		20 * PI / 180,	//presure angle in radians
 		17		//diametrical pitch
 	);
-#endif
 
 	//create a tooth
 	auto tooth= gear_gen_one( *pg );
@@ -169,6 +160,17 @@ BOOL CGearsDoc::OnNewDocument( )
 	if( ! CDocument::OnNewDocument( ) )
 		return FALSE;
 
+#if 1
+	gear_params_t params(
+		12,		//tooth count
+		20 * PI / 180,	//presure angle in radians
+		8		//diametrical pitch
+	);
+	test( &params );
+	test( );
+	UpdateAllViews( nullptr, ID_UPDATE_VIEW_TOFIT );
+
+#endif
 	return TRUE;
 }
 

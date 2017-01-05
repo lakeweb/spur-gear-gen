@@ -419,12 +419,12 @@ XMLNODE XMLNODE::GetElementValue( LPCXSTR tagName, RECT& value, RECT defaultVal 
 	return xml->GetLastChild( );
 }
 
-XMLNODE XMLNODE::GetElementValue( LPCXSTR tagName, COLORREF& value, COLORREF defaultVal )
-{
-	xml->currentNode= node;
-	xml->GetElementValue( tagName, value, defaultVal );
-	return xml->GetLastChild( );
-}
+//XMLNODE XMLNODE::GetElementValue( LPCXSTR tagName, COLORREF& value, COLORREF defaultVal )
+//{
+//	xml->currentNode= node;
+//	xml->GetElementValue( tagName, value, defaultVal );
+//	return xml->GetLastChild( );
+//}
 
 XMLNODE XMLNODE::GetElementValue( LPCTSTR tagName, LPBYTE* ppByte, DWORD* pCount )
 {
@@ -868,8 +868,11 @@ bool MakeStrSet( LPCXSTR p, std::vector< std::string >& set )
 		set.push_back( tstr );
 		if( *p == _T('/') )
 		{
+			//TODO 1/3/2017 hack.... 1/4/2017 fixed??? should be
+			//ok, we commented this for regestry that ends with a '/'
 			if( !isalnum( *++p ) )
 				return false;
+//			++p; //part of hack.....!!!!!!
 		}
 		else if( *p != _T('\0') )
 			return false;
@@ -924,7 +927,7 @@ XMLNODE CXML::GetNode( LPCXSTR xpattern, bool bCanCreate_ )
 	if( xparse.GetCount( ) )
 		currentNode= xparse.GetNode( 0 );
 
-	else if( bCanCreate_ && bCanCreate && lastXPathError == S_OK )
+	else if( bCanCreate_ && bCanCreate && ! lastXPathCount )
 	{
 		CreateNodes( xpattern );
 		//std::vector<CString> set;
@@ -1214,7 +1217,8 @@ bool CXML::GetElementValue( LPCXSTR tag, double& value, double defaultVal )
 	return result;
 }
 
-#ifdef _WINDOWS
+#if 1
+//#ifdef _WINDOWS
 long GetStrValXML( LPCTSTR& p, long base= 16 ) //unsigned long
 {
 	TCHAR* e;

@@ -299,7 +299,7 @@ void FrmRuler::set_marker( )
 	CRect rect;
 	GetClientRect( rect );
 	CClientDC dc( this );
-	TRACE( "set_marker: %d - %d\n", pos.x, pos.y );
+	//TRACE( "set_marker: %d - %d\n", pos.x, pos.y );
 
 	if( bHorz )
 	{

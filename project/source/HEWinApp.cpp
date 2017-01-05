@@ -8,12 +8,22 @@
 
 #include "stdafx.h"
 #include <debug.h>
+#include "HEWinApp.h"
 
 
 SP_XML sp_xml_settings_store_global;
 SP_XMLNODE sp_currentNode_settings_store_global;
 CString strSysRegPath;
 
+#ifdef _DEBUG
+std::ofstream sros( "store_read.log" );
+#define SRLOG( x ) sros << x << std::endl;
+std::wofstream swos( "store_write.log" );
+#define SWLOG( x ) swos << x << std::endl;
+#else
+#define SRLOG( x ) __noop;
+#define SWLOG( x ) __noop;
+#endif
 // This (was*) a part of the Microsoft Foundation Classes C++ library.
 // Hacked for XML storage
 // Copyright (C) Microsoft Corporation
@@ -25,9 +35,6 @@ CString strSysRegPath;
 // See these sources for detailed information regarding the
 // Microsoft Foundation Classes product.
 
-#include "HEWinApp.h"
-//#include "resource.h"
-//#include "CmdArgs.h"
 
 IMPLEMENT_DYNCREATE( XMLSettingsStore, CSettingsStore )
 
@@ -58,11 +65,8 @@ bool XMLSettingsStore::OpenXML( LPCTSTR psPathFile )
 }
 
 // .................................................................
-XMLSettingsStore::XMLSettingsStore()
-	:m_bReadOnly( FALSE )
-	,m_bAdmin( FALSE )
-	,m_dwUserData( 0 )
-	,sp_xml( sp_xml_settings_store_global )
+XMLSettingsStore::XMLSettingsStore( )
+	:sp_xml( sp_xml_settings_store_global )
 	,sp_currentNode( sp_currentNode_settings_store_global )
 	,psRegPath( strSysRegPath )
 {
@@ -70,9 +74,7 @@ XMLSettingsStore::XMLSettingsStore()
 
 // .................................................................
 XMLSettingsStore::XMLSettingsStore(BOOL bAdmin, BOOL bReadOnly)
-	:m_bReadOnly( bReadOnly )
-	,m_bAdmin( bAdmin )
-	,m_dwUserData( 0 )
+	:CSettingsStore( bAdmin, bReadOnly )
 	,sp_xml( sp_xml_settings_store_global )
 	,sp_currentNode( sp_currentNode_settings_store_global )
 	,psRegPath( strSysRegPath )
@@ -83,13 +85,18 @@ XMLSettingsStore::XMLSettingsStore(BOOL bAdmin, BOOL bReadOnly)
 // .................................................................
 void XMLSettingsStore::SetCurrentNode( LPCTSTR psNode )
 {
-	*sp_currentNode= sp_xml->GetNode( psNode, ! m_bReadOnly );
+	*sp_currentNode= sp_xml->GetNode( psNode, m_bReadOnly == 0 );
 }
 
 // .................................................................
-XMLSettingsStore::~XMLSettingsStore()
+XMLSettingsStore::~XMLSettingsStore( )
 {
-	Close( );
+	//*sp_currentNode= sp_xml->GetNode( L"/Root/Workspace/MFCToolBar-59392", false );
+	if( sp_currentNode->IsValid( ) )
+	for( size_t i= 0; sp_currentNode->SetCurrentChild( i ); ++i )
+		SWLOG( "   xml chld: " << sp_currentNode->GetCurrentChild( ).GetTag( ) )
+
+	Close( );//if a valid file system path, will be saved
 }
 
 // .................................................................
@@ -114,9 +121,11 @@ bool XMLSettingsStore::MakePath( LPCTSTR psIn, CString& strIn )
 	if( ! strT.IsEmpty( ) && strT[ strT.GetLength( ) - 1 ] == _T('\\') )
 	{
 		strT.Delete( strT.GetLength( ) - 1 );
-		strT+= _T('/');
+//		strT+= _T('/');
 	}
 	strIn= strT;
+	SWLOG( L"makepath: " << (LPCTSTR)strT )
+	SRLOG( "makepath: " << uni_t0_utf8( (LPCTSTR)strT ) )
 	return bNoDummy;
 }
 
@@ -128,7 +137,7 @@ BOOL XMLSettingsStore::Open( LPCTSTR lpszPath )
 		return FALSE;
 
 	XMLSTRACE( _T("Open %s: %s\n"), strT, m_bReadOnly ? _T("false") : _T("true ") );
-	*sp_currentNode= sp_xml->GetNode( strT, ! m_bReadOnly );
+	*sp_currentNode= sp_xml->GetNode( strT, m_bReadOnly == 0 );
 	return sp_currentNode->IsValid( );
 }
 
@@ -145,7 +154,8 @@ BOOL XMLSettingsStore::CreateKey( LPCTSTR lpszPath )
 		ASSERT( FALSE );
 		return FALSE;
 	}
-	*sp_currentNode= sp_xml->GetNode( strT, ! m_bReadOnly );//testing
+	*sp_currentNode= sp_xml->GetNode( strT, m_bReadOnly == 0 );//testing
+	SWLOG( L" makekey: " << (LPCTSTR)strT );
 	return sp_currentNode->IsValid( );
 //	return m_reg.Create(m_reg.m_hKey, PreparePath(lpszPath)) == ERROR_SUCCESS;
 }
@@ -166,6 +176,7 @@ BOOL XMLSettingsStore::Read(LPCTSTR lpszValueName, int& nValue)
 BOOL XMLSettingsStore::Read(LPCTSTR lpszValueName, DWORD& dwValue)
 {
 	sp_currentNode->GetElementValue( lpszValueName, dwValue, dwValue );
+	SRLOG( "  DWORD name: " << uni_t0_utf8( lpszValueName ) << " \tval: " << dwValue )
 	return TRUE;
 }
 
@@ -174,13 +185,15 @@ BOOL XMLSettingsStore::Read(LPCTSTR lpszValueName, CString& strValue)
 {
 	ENSURE(lpszValueName != NULL);
 
-	strValue.Empty();
+	strValue.Empty( );
 
-	XMLNODE node= sp_currentNode->GetElement( XML_TOUTF8( lpszValueName ), !! m_bReadOnly );
+	XMLNODE node= sp_currentNode->GetElement( XML_TOUTF8( lpszValueName ), m_bReadOnly == 0 );
 	if( ! node.IsValid( ) )
 		return FALSE;
 
 	sp_currentNode->GetElementValue( XML_TOUTF8( lpszValueName ), strValue );
+	SRLOG( "  CString name: " << uni_t0_utf8( lpszValueName ) << " \tval: " << uni_t0_utf8( strValue ) )
+
 	return TRUE;
 }
 
@@ -194,18 +207,19 @@ BOOL XMLSettingsStore::Read(LPCTSTR lpszValueName, BYTE** ppData, UINT* pcbData)
 	*ppData = NULL;
 	*pcbData = 0;
 
-	XMLNODE node= sp_currentNode->GetElement( XML_TOUTF8( lpszValueName ), true );
+	XMLNODE node= sp_currentNode->GetElement( XML_TOUTF8( lpszValueName ), m_bReadOnly == 0 );
 	if( ! node.IsValid( ) )
 		return FALSE;
 
 	sp_currentNode->GetElementValue( lpszValueName, ppData, (DWORD*)pcbData );
 	XMLSTRACE( _T("parent: %S name: %s count: %d\n"), sp_currentNode->GetTag( ), lpszValueName, *pcbData );
+	SRLOG( "  BYTE name: " << uni_t0_utf8( lpszValueName ) << " \tCNT: " << *pcbData )
 
 	return TRUE;
 }
 
 // .................................................................
-BOOL XMLSettingsStore::Read(LPCTSTR lpszValueName, CObject& obj)
+BOOL XMLSettingsStore::Read( LPCTSTR lpszValueName, CObject& obj )
 {
 	BOOL bSucess = FALSE;
 	BYTE* pData = NULL;
@@ -240,12 +254,13 @@ BOOL XMLSettingsStore::Read(LPCTSTR lpszValueName, CObject& obj)
 
 	//TODO !!!!!! BIG ONE this memory was allocated in the xml dll; Must destroy there!
 	//and better yet, use a smart pointer that does so
+	SRLOG( "  Object name: " << uni_t0_utf8( lpszValueName ) << " \tSIZE: " << uDataSize )
 	delete [] pData;
 	return bSucess;
 }
 
 // .................................................................
-BOOL XMLSettingsStore::Read(LPCTSTR lpszValueName, CObject*& pObj)
+BOOL XMLSettingsStore::Read( LPCTSTR lpszValueName, CObject*& pObj )
 {
 	BOOL bSucess = FALSE;
 	BYTE* pData = NULL;
@@ -280,6 +295,7 @@ BOOL XMLSettingsStore::Read(LPCTSTR lpszValueName, CObject*& pObj)
 
 	//TODO !!!!!! BIG ONE this memory was allocated in the xml dll; Must destroy there!
 	//and better yet, use a smart pointer that does so
+	SRLOG( "  Object name: " << uni_t0_utf8( lpszValueName ) << " \tPTR SIZE: " << uDataSize )
 	delete [] pData;
 	return bSucess;
 }
@@ -295,11 +311,13 @@ BOOL XMLSettingsStore::Read( LPCTSTR lpszValueName, CRect& rect )
 		return FALSE;
 
 	rect= rectT;
+	SRLOG( "Rect name: " << uni_t0_utf8( lpszValueName )\
+		<< " \t val: " << rect.top << " " << rect.left << " " << rect.bottom << " " << rect.right )
 	return TRUE;
 }
 
 // .................................................................
-// .................................................................
+//writing methods
 // .................................................................
 BOOL XMLSettingsStore::Write(LPCTSTR lpszValueName, int nValue)
 {
@@ -309,12 +327,13 @@ BOOL XMLSettingsStore::Write(LPCTSTR lpszValueName, int nValue)
 // .................................................................
 BOOL XMLSettingsStore::Write(LPCTSTR lpszValueName, DWORD dwValue)
 {
-	if (m_bReadOnly)
+	if( m_bReadOnly )
 	{
 		ASSERT(FALSE);
 		return FALSE;
 	}
 	sp_currentNode->SetElementValue( lpszValueName, dwValue );
+	SWLOG( L"  dword: " << lpszValueName << " v: " << dwValue );
 	return TRUE;
 //	return m_reg.SetDWORDValue(lpszValueName, dwValue) == ERROR_SUCCESS;
 }
@@ -322,20 +341,21 @@ BOOL XMLSettingsStore::Write(LPCTSTR lpszValueName, DWORD dwValue)
 // .................................................................
 BOOL XMLSettingsStore::Write(LPCTSTR lpszValueName, LPCTSTR lpszData)
 {
-	if (m_bReadOnly)
+	if( m_bReadOnly )
 	{
 		ASSERT(FALSE);
 		return FALSE;
 	}
+	SWLOG( L"  str: " << lpszValueName << L" d: " << lpszData );
 	sp_currentNode->SetElementValue( XML_TOUTF8( lpszValueName ), lpszData );
 	return TRUE;
 //	return m_reg.SetStringValue(lpszValueName, lpszData) == ERROR_SUCCESS;
 }
 
 // .................................................................
-BOOL XMLSettingsStore::Write(LPCTSTR lpszValueName, CObject& obj)
+BOOL XMLSettingsStore::Write( LPCTSTR lpszValueName, CObject& obj )
 {
-	if (m_bReadOnly)
+	if( m_bReadOnly )
 	{
 		ASSERT(FALSE);
 		return FALSE;
@@ -364,14 +384,15 @@ BOOL XMLSettingsStore::Write(LPCTSTR lpszValueName, CObject& obj)
 		pEx->Delete();
 		TRACE(_T("Memory exception in XMLSettingsStore::Write()!\n"));
 	}
+	SWLOG( L"  obj: " << lpszValueName );
 	return bRes;
 }
 
 // .................................................................
-BOOL XMLSettingsStore::Write(LPCTSTR lpszValueName, CObject* pObj)
+BOOL XMLSettingsStore::Write( LPCTSTR lpszValueName, CObject* pObj )
 {
-	ASSERT_VALID(pObj);
-	return Write(lpszValueName, *pObj);
+	ASSERT_VALID( pObj );
+	return Write( lpszValueName, *pObj );
 }
 
 // .................................................................
@@ -386,14 +407,17 @@ BOOL XMLSettingsStore::Write(LPCTSTR lpszValueName, const CRect& rect)
 }
 
 // .................................................................
-BOOL XMLSettingsStore::Write(LPCTSTR lpszValueName, LPBYTE pData, UINT nBytes)
+BOOL XMLSettingsStore::Write( LPCTSTR lpszValueName, LPBYTE pData, UINT nBytes )
 {
-	if (m_bReadOnly)
+	if( m_bReadOnly )
 	{
 		ASSERT(FALSE);
 		return FALSE;
 	}
 	sp_currentNode->SetElementValue( lpszValueName, pData, nBytes );
+	SWLOG( L"  dword: " << lpszValueName << L" l: " << nBytes );
+	for( size_t i= 0; sp_currentNode->SetCurrentChild( i ); ++i )
+		SWLOG( "   xml chld: " << sp_currentNode->GetCurrentChild( ).GetTag( ) )
 	return TRUE;
 //	return m_reg.SetBinaryValue(lpszValueName, pData, (ULONG) nBytes) == ERROR_SUCCESS;
 }
@@ -407,12 +431,12 @@ BOOL XMLSettingsStore::DeleteValue(LPCTSTR lpszValue)
 // .................................................................
 BOOL XMLSettingsStore::DeleteKey(LPCTSTR lpszPath, BOOL bAdmin)
 {
-	if (m_bReadOnly)
+	if( m_bReadOnly )
 	{
 		return FALSE;
 	}
 
-	m_reg.Close();
+	m_reg.Close( );
 	m_reg.m_hKey = bAdmin ? HKEY_LOCAL_MACHINE : HKEY_CURRENT_USER;
 
 	return m_reg.RecurseDeleteKey(PreparePath(lpszPath)) == ERROR_SUCCESS;
@@ -474,18 +498,20 @@ BOOL HEWinApp::InitInstance()
 	SetRegistryKey( DUMMY_REGISTRY_PATH );
 
 	CSettingsStoreSP::SetRuntimeClass( RUNTIME_CLASS( XMLSettingsStore ) );
+//	sp_xml_settings_store_global= SP_XML( boost::make_shared< CXML >( CXML ) );
 	sp_xml_settings_store_global= SP_XML( new CXML );
 	sp_currentNode_settings_store_global= SP_XMLNODE( new XMLNODE( *sp_xml_settings_store_global ) );
 	strSysRegPath= GetRegSectionPath( );
 	CSettingsStoreSP regSP;
 	{
-		XMLSettingsStore* pReg = dynamic_cast< XMLSettingsStore* >( &regSP.Create( FALSE, TRUE ) );
+		//need to open 'not' read only to create valid m_pRecentFileList
+		XMLSettingsStore* pReg = dynamic_cast< XMLSettingsStore* >( &regSP.Create( FALSE, FALSE ) );
 		pReg->SetRegPath( GetRegSectionPath( ) );
 		ASSERT_VALID( pReg );
 		//pReg->SetRegPath( DUMMY_REGISTRY_PATH );
-		bfs::path pathUser;
+//		bfs::path pathUser;
 
-		if( pathUser.empty( ) )//we will try to load here
+		if( ! pathUser.size( ) )//we will try to load here
 		{
 			TCHAR szPath[ MAX_PATH ];
 			if( SUCCEEDED( SHGetFolderPath(	NULL, CSIDL_APPDATA, NULL, 0, szPath ) ) )
@@ -507,12 +533,13 @@ BOOL HEWinApp::InitInstance()
 			;//error
 	}
 
-	InitContextMenuManager( );
-	InitKeyboardManager( );
-	InitTooltipManager( );
-	CMFCToolTipInfo ttParams;
-	ttParams.m_bVislManagerTheme = TRUE;
-	GetTooltipManager( )->SetTooltipParams( AFX_TOOLTIP_TYPE_ALL, RUNTIME_CLASS( CMFCToolTipCtrl ), &ttParams );
+	//these are done in derived.....
+	//InitContextMenuManager( );
+	//InitKeyboardManager( );
+	//InitTooltipManager( );
+	//CMFCToolTipInfo ttParams;
+	//ttParams.m_bVislManagerTheme = TRUE;
+	//GetTooltipManager( )->SetTooltipParams( AFX_TOOLTIP_TYPE_ALL, RUNTIME_CLASS( CMFCToolTipCtrl ), &ttParams );
 
 	return CWinAppEx::InitInstance( );
 }
@@ -522,11 +549,6 @@ int HEWinApp::ExitInstance( )
 	//Save the MRU
 	XMLNODE node= sp_xml_settings_store_global->GetNode( _X("/Root/RecentFileList") );
 	MRU_WriteXML( node );
-
-	//TODO !!!! figure out why leaving this entry creates memory leak on next close !!!!
-	sp_xml_settings_store_global->GetNode( _X("//MFCToolBar-59392/Buttons") );
-	sp_xml_settings_store_global->DeleteCurrentNode( );
-	//.......
 
 	//Write user XML
 	sp_xml_settings_store_global->Close( );
@@ -610,12 +632,12 @@ void HEWinApp::PreLoadState( )
 }
 
 // .......................................................................
-void HEWinApp::LoadCustomState()
+void HEWinApp::LoadCustomState( )
 {
 }
 
 // .......................................................................
-void HEWinApp::SaveCustomState()
+void HEWinApp::SaveCustomState( )
 {
 }
 

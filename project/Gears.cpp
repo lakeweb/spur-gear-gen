@@ -5,6 +5,8 @@
 #include "stdafx.h"
 #include "afxwinappex.h"
 #include "afxdialogex.h"
+#include "app_share.h"
+#include "HEWinApp.h"
 
 #include <ctrlext.h>
 #include "Scroller.h"
@@ -24,13 +26,15 @@
 #include "GearsDoc.h"
 #include "GearsView.h"
 
+#include "About.h"
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
 
 CGearsApp theApp;
 
-BEGIN_MESSAGE_MAP(CGearsApp, CWinAppEx)
+BEGIN_MESSAGE_MAP( CGearsApp, HEWinApp )
 	ON_COMMAND(ID_APP_ABOUT, &CGearsApp::OnAppAbout)
 	// Standard file based document commands
 	ON_COMMAND(ID_FILE_NEW, &CWinAppEx::OnFileNew)
@@ -73,7 +77,8 @@ BOOL CGearsApp::InitInstance()
 	InitCtrls.dwICC = ICC_WIN95_CLASSES;
 	InitCommonControlsEx(&InitCtrls);
 
-	CWinAppEx::InitInstance();
+	pathUser= get_user_folder( );
+	HEWinApp::InitInstance( );
 
 	// Initialize OLE libraries
 	if (!AfxOleInit())
@@ -87,7 +92,7 @@ BOOL CGearsApp::InitInstance()
 	EnableTaskbarInteraction(FALSE);
 
 	// AfxInitRichEdit2() is required to use RichEdit control	
-	// AfxInitRichEdit2();
+	AfxInitRichEdit2();
 
 	// Standard initialization
 	// If you are not using these features and wish to reduce the size
@@ -96,12 +101,11 @@ BOOL CGearsApp::InitInstance()
 	// Change the registry key under which our settings are stored
 	// TODO: You should modify this string to be something appropriate
 	// such as the name of your company or organization
-	SetRegistryKey(_T("Local AppWizard-Generated Applications"));
-	LoadStdProfileSettings(4);  // Load standard INI file options (including MRU)
+	//SetRegistryKey(_T("Local AppWizard-Generated Applications"));
+	//LoadStdProfileSettings(4);  // Load standard INI file options (including MRU)
 
 	InitContextMenuManager();
 	InitKeyboardManager();
-
 	InitTooltipManager();
 	CMFCToolTipInfo ttParams;
 	ttParams.m_bVislManagerTheme = TRUE;
@@ -166,48 +170,11 @@ int CGearsApp::ExitInstance()
 	//TODO: handle additional resources you may have added
 	AfxOleTerm(FALSE);
 
-	return CWinAppEx::ExitInstance();
+	return HEWinApp::ExitInstance();
 }
 
 // CGearsApp message handlers
 
-
-// CAboutDlg dialog used for App About
-
-class CAboutDlg : public CDialogEx
-{
-public:
-	CAboutDlg();
-
-// Dialog Data
-	enum { IDD = IDD_ABOUTBOX };
-
-protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-
-// Implementation
-protected:
-	DECLARE_MESSAGE_MAP()
-};
-
-CAboutDlg::CAboutDlg() : CDialogEx(CAboutDlg::IDD)
-{
-}
-
-void CAboutDlg::DoDataExchange(CDataExchange* pDX)
-{
-	CDialogEx::DoDataExchange(pDX);
-}
-
-BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
-END_MESSAGE_MAP()
-
-// App command to run the dialog
-void CGearsApp::OnAppAbout()
-{
-	CAboutDlg aboutDlg;
-	aboutDlg.DoModal();
-}
 
 // CGearsApp customization load/save methods
 
@@ -230,3 +197,12 @@ void CGearsApp::LoadCustomState()
 void CGearsApp::SaveCustomState()
 {
 }
+
+// .......................................................................
+void CGearsApp::OnAppAbout( )
+{
+	CAboutDlg aboutDlg;
+	aboutDlg.DoModal( );
+}
+
+
