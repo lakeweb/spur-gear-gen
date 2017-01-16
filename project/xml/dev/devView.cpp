@@ -200,12 +200,10 @@ void CdevView::OnInitialUpdate( )
 	//xml.WriteStringFmt( strT );
 //	xml.ReadString( STR_UPDATE_NEW_XML );
 
-	xml.Open( _T("C:/cpp/HE/xml/dev/test3.xml"), CXML::modeProgFile );
-	CString strTest;
-	xml.GetElementValue( _X("footer"), strTest );
-	xml.WriteStringFmt( strT );
-	//xml.Clear( );
-	//xml.ReadString( strT );
+	xml.Open( _T("./test.xml"), CXML::modeProgFile );
+	xml.Clear( );
+	xml.CreateEmptyDoc( );
+	xml.SetDOCTYPE( L"test\"<this>\"" );
 	xml.Close( );
 //	WriteOutput( strTest );
 

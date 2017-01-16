@@ -12,14 +12,18 @@ protected:
 	//layer_set_t layers;
  //   DrawingObects drawobj;
 
+	bool bAnimate;
+
 	//experimental, not used yet
 	gc_process gc;
 
 	std::string gear_info;
+	DrawingObects export_drawobj;
 
 	//void gear( );
 	void test( );
 	void test( pgear_params_t pg );
+	virtual DrawingObects& GetExportDrawObject( );
 
 	void gear_org( );
 
@@ -49,7 +53,10 @@ public:
 
 protected:
 DECLARE_MESSAGE_MAP( )
-	afx_msg void OnFileTest( );
+	afx_msg void OnFileExport( );
 	afx_msg LRESULT OnLayerEnable( WPARAM, LPARAM );
 	afx_msg void OnFileGCode( );
+	afx_msg void OnToolsAnimate( );
+	afx_msg void OnUpdateToolsAnimate( CCmdUI *pCmdUI );
+	afx_msg void OnTimer( UINT nIDEvent );
 };

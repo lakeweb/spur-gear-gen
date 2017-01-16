@@ -11,19 +11,14 @@
 #include "Drawing.h"
 #include "CADDoc.h"
 #include "dxf.h"
+#include "CADParse.h"
 
 // ..........................................................................
 IMPLEMENT_DYNCREATE( CADDoc, CDocument )
 BEGIN_MESSAGE_MAP( CADDoc, CDocument )
-	ON_COMMAND( ID_FILE_TEST, &CADDoc::OnFileTest )
+	ON_COMMAND( ID_FILE_EXPORT, &CADDoc::OnFileExport )
 	ON_COMMAND( ID_FILE_G_CODE, &CADDoc::OnFileGCode )
-	//	ON_NOTIFY( ID_GEAR_PARAM_CHANGED, 1, &CADDoc::OnGearParamChanged )
 END_MESSAGE_MAP( )
-
-// ............................................................................
-//void CADDoc::OnGearParamChanged( NMHDR*, LRESULT* )
-//{
-//}
 
 // ..........................................................................
 BOOL CADDoc::OnCmdMsg( UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo )
@@ -69,10 +64,10 @@ inline SP_BaseItem  make_sp( Type& obj ) { return boost::make_shared< Type >( ob
 // ..........................................................................
 void CADDoc::test( )
 {
-	ObjectSet set;
-	SP_PointItem pt( PointItem( bg_point( 1, 1 ) ).get_SP( ) );
+	ItemSet set;
+	SP_BaseItem pt( PointItem( bg_point( 1, 1 ) ).get_SP( ) );
 	set.push_back( pt );
-	SP_LineItem lt( LineItem( bg_point( -1, -.5 ), bg_point( 0, 0 ) ).get_SP( ) );
+	SP_BaseItem lt( LineItem( bg_point( -1, -.5 ), bg_point( 0, 0 ) ).get_SP( ) );
 	set.push_back( lt );
 	bg_box box= get_rect_hull( set.get_set( ) );
 	set.push_back( RectItem( box ).get_SP( ) );
@@ -100,9 +95,84 @@ BOOL CADDoc::OnNewDocument( )
 }
 
 // ..........................................................................
+void expr_stream( std::wostream& os, const SP_BaseItem& in )
+{
+	typecase( *in,
+		[ & ]( PointItem& pa ) {
+//		os << " " << pa.get_bg_point( ).get_x( ) << " " << pa.get_bg_point( ).get_y( );
+	},
+		[ & ]( LineItem& pa ) {
+		os << L"(line " << pa.get_bg_line( ).first.get_x( ) << " "
+			<< pa.get_bg_line( ).first.get_y( ) << " "
+			<< pa.get_bg_line( ).second.get_x( ) << " "
+			<< pa.get_bg_line( ).second.get_y( ) << ")"
+		;
+	},
+		[ & ]( const ArcItem& pa ) {
+		os << "(arc "
+			<< " " << pa.get_a( ).get_x( ) << " "
+			<< " " << pa.get_a( ).get_y( ) << " "
+			<< " " << pa.get_b( ).get_x( ) << " "
+			<< " " << pa.get_b( ).get_y( ) << " "
+			<< " " << pa.get_o( ).get_x( ) << " "
+			<< " " << pa.get_o( ).get_y( ) << ")"
+		;
+	},
+		[ & ]( const RectItem& pa ) {
+	},
+		[ & ]( const EllipesItem& pa ) {
+	},
+		[ & ]( const BezierCubeItem& pa ) {
+	},
+		[ & ]( const PolyItem& pa ) {
+		os << L"(polyline ";
+		for( auto l : pa )
+			os << l.get_x( ) << L" " << l.get_y( ) << L" ";
+		os << L")";
+	});
+}
+
+// ..........................................................................
+class expr_obj
+{
+public:
+	expr_obj( const SP_BaseItem& in ) : obj( in ) {}
+	friend std::wostream& operator<<( std::wostream& os, const expr_obj& sobj ) 
+	{
+		//os << "M ";
+		os << std::fixed;
+		expr_stream( os, sobj.obj );
+		return os;
+	}
+private:
+	const SP_BaseItem& obj;
+};
+
+// ..........................................................................
 BOOL CADDoc::OnSaveDocument( LPCTSTR lpszPathName )
 {
-	return CDocument::OnSaveDocument( lpszPathName );
+	std::wofstream os( lpszPathName );
+	//doing it here for testing
+	os << L"\
+(HE_CAD (version 1)\n\
+   (general\n\
+      (area -1.0 -1.0 3.0 3.0)\n\
+      (line_width .1)\n\
+   )\n";
+
+	for( auto& prims : drawobj )
+	{
+		os <<L"\
+   (object (layer test_layer)\
+";
+		for( auto & item : prims )
+		{
+			os << L"         " << expr_obj( item ) << L"\n";
+		}
+		os << L"      )\n";
+	}
+	os << L")\n";
+	return TRUE;
 }
 
 // ..........................................................................
@@ -115,11 +185,27 @@ LRESULT CADDoc::OnLayerEnable(WPARAM, LPARAM )
 	return 0;
 }
 
-void CADDoc::OnFileTest( )
+// ..........................................................................
+void CADDoc::OnFileExport( )
 {
 	DXF_WriteFile( bfs::path( "test2.dxf"), drawobj );
 	return;
 
+}
+
+// ..........................................................................
+BOOL CADDoc::OnOpenDocument( LPCTSTR lpszPathName )
+{
+	std::ifstream in( lpszPathName, std::ios_base::in );
+	if( ! in.is_open( ) )
+		assert( false );
+
+	if( ! CadParse( in, &drawobj ) )
+		return FALSE;
+
+	// TODO:  Add your specialized creation code here
+
+	return TRUE;
 }
 
 // ..........................................................................

@@ -57,7 +57,7 @@
 #include <vector>
 #include <list>
 #include <stack>
-
+#include <boost\unordered_map.hpp>
 #include <boost/system/error_code.hpp>
 
 #include <boost/shared_ptr.hpp>

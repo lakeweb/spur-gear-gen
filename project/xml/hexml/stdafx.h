@@ -46,7 +46,7 @@
 
 
 #ifdef _DEBUG
-#define TINYXPATH_DEBUG
+//#define TINYXPATH_DEBUG
 #endif
 
 #include "../tinyxml/tinyxml.h"

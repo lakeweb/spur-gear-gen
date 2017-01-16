@@ -199,6 +199,21 @@
     <ClInclude Include="app_share.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="sgv.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="spirit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SpiritParsers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CADParse.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CADParseID.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Gears.cpp">
@@ -275,6 +290,24 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Globals.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sgv.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="app_share.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="spirit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SpiritParsersBridge.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CADParse.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="debug.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

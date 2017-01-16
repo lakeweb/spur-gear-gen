@@ -69,7 +69,6 @@ inline void operator += ( ArcItem& a, const bg_point& b )
 	a.o+= b;
 }
 
-
 // ............................................................................
 SP_BaseItem rotate_object( GEO_NUM angle, const SP_BaseItem& input, bg_point origin )
 {
@@ -187,7 +186,7 @@ bg_box get_rect_hull( const SP_BaseItem& obs )
 }
 
 // ..................................................................
-bg_box get_rect_hull( sp_obj_vect_t& obs )
+bg_box get_rect_hull( const sp_obj_vect_t& obs )
 {
 	bg_box box= get_rect_hull( obs.front( ) );
 
@@ -199,7 +198,7 @@ bg_box get_rect_hull( sp_obj_vect_t& obs )
 }
 
 // ..................................................................
-bg_box get_rect_hull( object_set_t& objects )
+bg_box get_rect_hull( const object_set_t& objects )
 {
 	bg_box box;
 	for( auto& set : objects )

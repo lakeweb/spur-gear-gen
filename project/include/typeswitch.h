@@ -1,3 +1,5 @@
+
+#pragma once
 // Begin ecatmur's code
 //http://stackoverflow.com/questions/13358672/how-to-convert-a-lambda-to-an-stdfunction-using-templates/13359520#13359520
 template<typename T> struct remove_class { };

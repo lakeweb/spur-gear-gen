@@ -57,9 +57,9 @@ void DrawArea::DrawObjects( const DrawingObects& objs )
 
 // ............................................................................
 // adapted from: http://stackoverflow.com/questions/22822836/type-switch-construct-in-c11
-void DrawArea::DrawObject( const ItemObj& obj )
+void DrawArea::DrawObject( const BaseItem& obj )
 {
-	SetPen( obj.GetColor( ), 1, penStylesRnd );
+	SetPen( obj.GetColor( ), 2, penStylesRnd );
 
 	typecase( obj,
 

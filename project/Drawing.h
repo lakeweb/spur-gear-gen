@@ -12,11 +12,7 @@ class DrawArea;
 class DrawingObects
 {
 	friend DrawArea;
-	layer_set_t& layers;
-	bg_point offset;
-	object_set_t primitives;
 	typedef object_set_t::iterator iterator;
-	//size_t id;
 
 public:
 	DrawingObects( layer_set_t& layers )
@@ -24,12 +20,19 @@ public:
 		//,id( 0 )
 	{ }
 	void set_offset( const bg_point& pt ) { offset= pt; }
-	void push_back( const ObjectSet& obj ) { primitives.push_back( obj ); }
+	void push_back( const ItemSet obj ) { primitives.push_back( obj ); }
 	iterator begin( ) { return primitives.begin( ); }
 	iterator end( ) { return primitives.end( ); }
 	size_t size( ) const { return primitives.size( ); }
 	object_set_t& get_set( ) { return primitives; }
 	const layer_set_t& get_layers( ) const { return layers; }
+	bg_box& get_viewport( ) { return viewport; }
+	ItemSet* back_ptr( ) { return &primitives.back( ); }
+private:
+	bg_box viewport;
+	layer_set_t& layers;
+	bg_point offset;
+	object_set_t primitives;
 };
 
 // ..........................................................................
@@ -114,7 +117,7 @@ class DrawArea
 	LOGBRUSH pen_logbrush;
 
 public:
-	DrawArea( CDC* pInDC, /*PCBoard& inBoard, */DrawExtent& iDraw )
+	DrawArea( CDC* pInDC, /*DrawingObects& inBoard, */DrawExtent& iDraw )
 		:pDC( pInDC )
 		,draw( iDraw )
 	{
@@ -136,7 +139,7 @@ public:
 	void DrawArc( const ArcItem& arc );
 	void DrawEllipes( const bg_box& box ) const;
 	void PopPenBrush( );
-	void DrawObject( const ItemObj& obj );
+	void DrawObject( const BaseItem& obj );
 	void DrawObjects( const DrawingObects& obj );
 	void DrawPoint( const bg_point );
 	void DrawRawPoint( const bg_point );

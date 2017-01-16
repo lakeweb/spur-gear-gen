@@ -104,5 +104,5 @@ typedef struct tagNMHDROBJECT
 	void* pObject; 
 } NMHDROBJECT, *PNMHDROBJECT;
 
-
+#define TO_RAD( x ) ( x * PI / 180 )
 

@@ -29,9 +29,20 @@
 *.app
 
 # Cases for this project - spur-gear-gen
+*.opendb
 lib/
 Release/
+Release_dll/
+tiny_lib/
 Debug/
+project/test2.dxf
+*.log
+*.hcd
+*.i
+*.aps
+*.ipch
+*.tmp
+*.grs
 
 project/.vs/
 project/Debug/

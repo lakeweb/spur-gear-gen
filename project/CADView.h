@@ -30,6 +30,9 @@ public:
 	//for parent frame status bar
 	bool bStatusMouseChanged;
 	CString strStatus;
+
+	bool bAnimate;
+
 	CString GetStatusInfo( );
 	void NotifyFrame( );
 
@@ -63,6 +66,12 @@ protected:
 	afx_msg LRESULT OnFrmNotify( WPARAM wp, LPARAM lp );
 
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
+
+	//testing
+	afx_msg void OnToolsAnimate( );
+	afx_msg void OnUpdateToolsAnimate( CCmdUI *pCmdUI );
+	//afx_msg void OnTimer( UINT nIDEvent );
+
 };
 
 #ifndef _DEBUG  // debug version in GearsView.cpp

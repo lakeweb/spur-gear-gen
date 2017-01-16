@@ -177,7 +177,7 @@ void CFileView::OnProperties()
 
 }
 
-void CFileView::OnFileOpen()
+void CFileView::OnFileOpen( )
 {
 	// TODO: Add your command handler code here
 }

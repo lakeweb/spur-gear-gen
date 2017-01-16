@@ -9,16 +9,14 @@
 
 #include "resource.h"       // main symbols
 #include "HEWinApp.h"
-
-// CGearsApp:
-// See Gears.cpp for the implementation of this class
-//
+#include "app_share.h"
 
 class CGearsApp : public HEWinApp
 {
 public:
 	CGearsApp();
 
+	profile_t profile;
 
 // Overrides
 public:
@@ -35,6 +33,7 @@ public:
 
 DECLARE_MESSAGE_MAP()
 	afx_msg void OnAppAbout();
+	afx_msg void OnFileNew();
 };
 
 extern CGearsApp theApp;

@@ -36,24 +36,33 @@ BEGIN_MESSAGE_MAP( CADView, CView )
 	ON_COMMAND( ID_FILE_PRINT, &CView::OnFilePrint )
 	ON_COMMAND( ID_FILE_PRINT_DIRECT, &CView::OnFilePrint )
 	ON_COMMAND( ID_FILE_PRINT_PREVIEW, &CADView::OnFilePrintPreview )
+	ON_MESSAGE( VIEW_INFO_NOTIFY, &CADView::OnFrmNotify )
 	ON_WM_CONTEXTMENU( )
 	ON_WM_RBUTTONUP( )
-	ON_WM_MOUSEWHEEL()
+	ON_WM_MOUSEMOVE( )
+	ON_WM_MOUSEWHEEL( )
 	ON_WM_VSCROLL( )
 	ON_WM_HSCROLL( )
 	ON_WM_SIZE( )
-	ON_WM_TIMER( )
-	ON_MESSAGE( VIEW_INFO_NOTIFY, &CADView::OnFrmNotify )
-	ON_WM_MOUSEMOVE()
 END_MESSAGE_MAP( )
+
+// ..................................................................
+// ..................................................................
+void CADView::OnUpdateToolsAnimate( CCmdUI *pCmdUI )
+{
+	pCmdUI->Enable( );
+	pCmdUI->SetCheck( bAnimate );
+}
 
 // ..................................................................
 CADView::CADView( )
 	:winScale( 140 )
 	,offsetx( -1500 )
 	,offsety( -1500 )
+	,rectS( -1, -1, 4, 4 )
 	,d_ext( rectS, offsetx, offsety, winScale )
 	,bStatusMouseChanged( true )
+	,bAnimate( false )
 {
 }
 
@@ -240,7 +249,7 @@ void CADView::OnUpdate( CView* /*pSender*/, LPARAM hint, CObject* pHint )
 // ..................................................................
 //printing
 // ..................................................................
-void CADView::OnFilePrintPreview()
+void CADView::OnFilePrintPreview( )
 {
 #ifndef SHARED_HANDLERS
 	AFXPrintPreview( this );

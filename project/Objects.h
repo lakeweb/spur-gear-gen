@@ -10,24 +10,27 @@
 // ..........................................................................
 // ..........................................................................
 //base class for milling objects
-class ItemObj
+class BaseItem
+	:public boost::enable_shared_from_this< BaseItem > //item
 {
 	COLORREF color;
 	size_t width;
 	bool bMill;
 
 public:
-	virtual ~ItemObj( ) { }
-	ItemObj( )
+	virtual ~BaseItem( ) { }
+	BaseItem( )
 		:color( RGB( 0, 0, 0 ) )
 		,width( 1 )
 		,bMill( false )
 	{ }
-	ItemObj( const ItemObj& o )
+	BaseItem( const BaseItem& o )
 		:color( o.color )
 		,width( o.width )
 		,bMill( o.bMill )
 	{ }
+	typedef boost::shared_ptr< BaseItem > SP_BaseItem;
+	SP_BaseItem get_SP( ) {	return boost::make_shared< BaseItem >( *this ); }
 	void SetColor( COLORREF in ) { color= in; }
 	void SetWidth( size_t in ) { width= in; }
 	const COLORREF GetColor( ) const { return color; }
@@ -35,17 +38,12 @@ public:
 	bool GetMill( ) const { return bMill; }
 };
 
-typedef boost::shared_ptr< ItemObj > SP_BaseItem;
+typedef boost::shared_ptr< BaseItem > SP_BaseItem;
 typedef std::vector< SP_BaseItem > sp_obj_vect_t;
 typedef std::vector< SP_BaseItem >::const_iterator sp_obj_vect_cit_t;
 
-typedef std::vector< ItemObj > obj_vect_t;
-typedef std::vector< ItemObj >::iterator obj_vect_it_t;
-typedef std::vector< ItemObj >::const_iterator obj_vect_cit_t;
-
 // ..........................................................................
-class PointItem : public ItemObj
-	,public boost::enable_shared_from_this< PointItem > //item
+class PointItem : public BaseItem
 {
 	bg_point point;
 
@@ -53,7 +51,6 @@ public:
 	PointItem( const bg_point& a )
 		:point( a )
 	{ }
-	boost::shared_ptr< PointItem > get_SP( ) {	return boost::make_shared< PointItem >( *this ); }
 	operator const bg_point& ( ) { return point; }
 	const bg_point& get_bg_point( ) const { return point; }
 	void set( bg_point& in ) { point= in; }
@@ -62,7 +59,7 @@ public:
 typedef boost::shared_ptr< PointItem > SP_PointItem;
 
 // ..........................................................................
-class LineItem : public ItemObj
+class LineItem : public BaseItem
 	,public boost::enable_shared_from_this< LineItem > //item
 {
 	bg_line line;
@@ -74,6 +71,7 @@ public:
 	LineItem( const bg_line& a )
 		:line( a )
 	{ }
+	LineItem( ) { }
 	boost::shared_ptr< LineItem > get_SP( ) {	return boost::make_shared< LineItem >( *this ); }
 	operator const bg_line& ( ) const { return line; }
 	const bg_line& get_bg_line( ) const { return line; }
@@ -87,7 +85,8 @@ typedef boost::shared_ptr< LineItem > SP_LineItem;
 	b as end of arc
 	o center of arc
 */
-class ArcItem : public ItemObj
+class ArcItem : public BaseItem
+	,public boost::enable_shared_from_this< ArcItem > //item
 {
 	bg_point a;
 	bg_point b;
@@ -97,8 +96,7 @@ class ArcItem : public ItemObj
 
 	friend void operator += ( ArcItem& a, const bg_point& b );
 public:
-	ArcItem( )
-	{ }
+	ArcItem( ) { }
 
 	ArcItem( const bg_point& a, const bg_point& b, const bg_point& o )
 		:a( a )
@@ -118,12 +116,13 @@ public:
 	GEO_NUM get_start_ang( ) const;
 	GEO_NUM get_end_ang( ) const;
 	void rotate( const GEO_NUM angle, const bg_point& origin );
+	boost::shared_ptr< ArcItem > get_SP( ) {	return boost::make_shared< ArcItem >( *this ); }
 	//void set( const bg_point& ia, const bg_point& ib, const bg_point& io ) { a= ia; b= ib; o= io; }
 };
 typedef boost::shared_ptr< ArcItem > SP_ArcItem;
 
 // ..........................................................................
-class RectItem : public ItemObj
+class RectItem : public BaseItem
 	,public boost::enable_shared_from_this< RectItem > //item
 {
 	bg_box box;
@@ -146,7 +145,7 @@ public:
 typedef boost::shared_ptr< RectItem > SP_RectItem;
 
 // ..........................................................................
-class EllipesItem : public ItemObj
+class EllipesItem : public BaseItem
 {
 	bg_box box;
 
@@ -168,7 +167,7 @@ public:
 typedef boost::shared_ptr< EllipesItem > SP_EllipesItem;
 
 // ..........................................................................
-class BezierCubeItem : public ItemObj
+class BezierCubeItem : public BaseItem
 {
 	bg_point p0;
 	bg_point p1;
@@ -204,7 +203,8 @@ public: //cubic bezier
 typedef boost::shared_ptr< BezierCubeItem > SP_BezierCubeItem;
 
 // ..........................................................................
-class PolyItem : public ItemObj
+class PolyItem : public BaseItem
+	,public boost::enable_shared_from_this< PolyItem > //item
 {
 	bg_linestring_t ls;
 	typedef bg_linestring_t::const_iterator iter;
@@ -219,13 +219,15 @@ public:
 	const bg_linestring_t& get_item( ) const { return ls; }
 	bg_point& back( ) { return ls.back( ); }
 	bg_point& at (size_t i ) { return ls.at( i ); }
+	boost::shared_ptr< PolyItem > get_SP( ) {	return boost::make_shared< PolyItem >( *this ); }
 };
 typedef boost::shared_ptr< PolyItem > SP_PolyItem;
 
 // ..........................................................................
 //wrapper for sp_obj_vect_t
 
-typedef class _ObjectSet
+typedef class _ItemSet : public BaseItem
+	,public boost::enable_shared_from_this< _ItemSet >
 {
 	sp_obj_vect_t set;
 	size_t layer;
@@ -233,17 +235,17 @@ typedef class _ObjectSet
 	bg_point offset;
 
 public:
-	_ObjectSet( )
+	_ItemSet( )
 		:layer( 0 )
 		,id( 0 )
 	{ }
-	_ObjectSet( size_t layer )
+	_ItemSet( size_t layer )
 		:layer( layer )
 	{ }
 	void push_back( SP_BaseItem spi ) { set.push_back( spi ); }
 	sp_obj_vect_cit_t begin( ) const { return set.begin( ); }
 	sp_obj_vect_cit_t end( ) const { return set.end( ); }
-	sp_obj_vect_t get_set( ) { return set; }
+	const sp_obj_vect_t& get_set( ) const { return set; }
 	size_t GetLayer( ) const { return layer; }
 	void set_layer( size_t ilayer ) { layer= ilayer; }
 	void clear( ) { set.clear( ); }
@@ -252,10 +254,15 @@ public:
 	size_t get_id( ) const { return id; }
 	void set_offset( const bg_point& in ) { offset= in; }
 	const bg_point& get_offset( ) const { return offset; }
+	boost::shared_ptr< _ItemSet > make_SP( ) {	return boost::make_shared< _ItemSet >( *this ); }
 
-}ObjectSet;
+}ItemSet;
 
-typedef std::vector< ObjectSet > object_set_t;
+//typedef boost::shared_ptr< ItemSet > SP_ItemSet;
+//
+//typedef std::vector< SP_ItemSet > object_set_t;
+//using a list so the objects won't move around on addition/deletion
+typedef std::list< ItemSet > object_set_t;
 
 //globals .................................
 //both of these rotate/tranform a copied object leaving the origanal in place
@@ -263,9 +270,10 @@ SP_BaseItem rotate_object( GEO_NUM angle, const SP_BaseItem& input, bg_point ori
 SP_BaseItem transform_object( const SP_BaseItem& input, bg_point offset );
 
 bg_box get_rect_hull( const SP_BaseItem& obs );
-bg_box get_rect_hull( sp_obj_vect_t& obs );
-bg_box get_rect_hull( object_set_t& objects );
+bg_box get_rect_hull( const sp_obj_vect_t& obs );
+bg_box get_rect_hull( const object_set_t& objects );
 
+std::ostream& operator << ( std::ostream& os, const SP_BaseItem& in );
 
 
 #endif //OBJECT_H

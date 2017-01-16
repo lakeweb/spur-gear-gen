@@ -1,6 +1,7 @@
 
 
 #include "stdafx.h"
+#include "typeswitch.h"
 #include "shared.h"
 #include "Geometry.h"
 #include "objects.h"
@@ -213,66 +214,48 @@ void DXF_Stream( std::wofstream& os, DrawingObects& drawobj, DL_Dxf* dxf, DL_Wri
 			//if( item->GetMill( ) )
 		{
 			//TODO use typecase(...) here...
-			const std::type_info& ti1= typeid( item );
-			//if( ! item->GetMill( ) )
-			//	continue;
-			{
-				const ArcItem* p=	dynamic_cast< const ArcItem* >( item.get( ) );
-				if( p )
-				{
-					DL_ArcData ad( p->get_o( ).get_x( ),
-						p->get_o( ).get_y( ),
+			typecase( *item,
+
+				[ & ]( LineItem& pa ) {
+				dxf->writeLine(
+					*dw,
+					DL_LineData( pa.get_bg_line( ).first.get_x( ),   // start point
+						pa.get_bg_line( ).first.get_y( ),
+						0.0,
+						pa.get_bg_line( ).second.get_x( ),   // end point
+						pa.get_bg_line( ).second.get_y( ),   // end point
+						0.0),
+					DL_Attributes("mainlayer", 256, 1, "BYLAYER",2));
+				},
+				[ & ]( const ArcItem& pa ) {
+					DL_ArcData ad( pa.get_o( ).get_x( ),
+						pa.get_o( ).get_y( ),
 						0,
-						p->get_rad( ),
-						p->get_start_ang( ) * ( 180 / PI ),
-						p->get_end_ang( ) * ( 180 / PI )
+						pa.get_rad( ),
+						pa.get_start_ang( ) * ( 180 / PI ),
+						pa.get_end_ang( ) * ( 180 / PI )
 						//atan(  p->get_a( ).get_y( ) /  p->get_a( ).get_x( ) ) * ( 180 / PI ),
 						//atan(  p->get_b( ).get_y( ) /  p->get_b( ).get_x( ) ) * ( 180 / PI )
 						);
 					dxf->writeArc( *dw, ad,
 						DL_Attributes("mainlayer", 256, 1, "BYLAYER",1) );
 
-					os << SET_OSFLOAT << "box: " << p->get_box( )
-						<< " a: " << p->get_a( )
-						<< " b: " << p->get_b( )
-						<< " rad: " << p->get_rad( )
-						<< "\n   st ang: " << p->get_start_ang( ) * ( 180 / PI )
-						<< " end ang: " << p->get_end_ang( ) * ( 180 / PI )
-						<< " a_o_dif: " << p->get_a( ).get_y( ) - p->get_o( ).get_y( )
-						<< " b_o_dif: " << p->get_b( ).get_y( ) - p->get_o( ).get_y( )
+					os << SET_OSFLOAT << "box: " << pa.get_box( )
+						<< " a: " << pa.get_a( )
+						<< " b: " << pa.get_b( )
+						<< " rad: " << pa.get_rad( )
+						<< "\n   st ang: " << pa.get_start_ang( ) * ( 180 / PI )
+						<< " end ang: " << pa.get_end_ang( ) * ( 180 / PI )
+						<< " a_o_dif: " << pa.get_a( ).get_y( ) - pa.get_o( ).get_y( )
+						<< " b_o_dif: " << pa.get_b( ).get_y( ) - pa.get_o( ).get_y( )
 						<< std::endl;
-					os << SET_OSFLOAT << "test tan a.y/a.x: " << p->get_a( ).get_y( ) /  p->get_a( ).get_x( )
-						<< "  test tan b.y/b.x: " << p->get_b( ).get_y( ) /  p->get_b( ).get_x( )
-						<< "  atan a: " << p->get_start_ang( ) * ( 180 / PI )
-						<< "  atan b: " << p->get_end_ang( ) * ( 180 / PI )
+					os << SET_OSFLOAT << "test tan a.y/a.x: " << pa.get_a( ).get_y( ) /  pa.get_a( ).get_x( )
+						<< "  test tan b.y/b.x: " << pa.get_b( ).get_y( ) /  pa.get_b( ).get_x( )
+						<< "  atan a: " << pa.get_start_ang( ) * ( 180 / PI )
+						<< "  atan b: " << pa.get_end_ang( ) * ( 180 / PI )
 						<< std::endl << std::endl;
-
-					continue;
-				}
-			}
-
-			{
-				const LineItem* p=	dynamic_cast< const LineItem* >( item.get( ) );
-
-				if( p )
-				{
-					dxf->writeLine(
-						*dw,
-						DL_LineData( p->get_bg_line( ).first.get_x( ),   // start point
-							p->get_bg_line( ).first.get_y( ),
-							0.0,
-							p->get_bg_line( ).second.get_x( ),   // end point
-							p->get_bg_line( ).second.get_y( ),   // end point
-							0.0),
-						DL_Attributes("mainlayer", 256, 1, "BYLAYER",2));
-					continue;
-				}
-			}
-			{
-				const BezierCubeItem* p= dynamic_cast< const BezierCubeItem* >( item.get( ) );
-
-				if( p )
-				{
+				},
+				[ & ]( const BezierCubeItem& pa ) {
 					size_t degree= 3;
 					size_t ctl_pts= 4;
 					size_t knots= ctl_pts + degree + 1;
@@ -300,50 +283,43 @@ void DXF_Stream( std::wofstream& os, DrawingObects& drawobj, DL_Dxf* dxf, DL_Wri
 					}
 					// write spline control points:
 					dxf->writeControlPoint( *dw,
-						DL_ControlPointData( p->get_point0( ).get_x( ),
-							p->get_point0( ).get_y( ),
+						DL_ControlPointData( pa.get_point0( ).get_x( ),
+							pa.get_point0( ).get_y( ),
 							0.0, 1.0
 							)
 						);
 					dxf->writeControlPoint( *dw,
-						DL_ControlPointData( p->get_point1( ).get_x( ),
-							p->get_point1( ).get_y( ),
+						DL_ControlPointData( pa.get_point1( ).get_x( ),
+							pa.get_point1( ).get_y( ),
 							0.0, 1.0
 							)
 						);
 					dxf->writeControlPoint( *dw,
-						DL_ControlPointData( p->get_point3( ).get_x( ),
-							p->get_point3( ).get_y( ),
+						DL_ControlPointData( pa.get_point3( ).get_x( ),
+							pa.get_point3( ).get_y( ),
 							0.0, 1.0
 							)
 						);
 					dxf->writeControlPoint( *dw,
-						DL_ControlPointData( p->get_point2( ).get_x( ),
-							p->get_point2( ).get_y( ),
+						DL_ControlPointData( pa.get_point2( ).get_x( ),
+							pa.get_point2( ).get_y( ),
 							0.0, 1.0
 							)
 						);
-					continue;
-				}
-			}
+					},
+					[ & ]( const PolyItem& pa ) {
 
-			{
-				const PolyItem* p=	dynamic_cast< const PolyItem* >( item.get( ) );
-
-				if( p )
-				{// <true for closed polyline, false for open polylines>
+					// <true for closed polyline, false for open polylines>
 					dxf->writePolyline(
 						*dw,
-						DL_PolylineData( p->size( ), 0, 0, 0 ), 
+						DL_PolylineData( pa.size( ), 0, 0, 0 ), 
 						DL_Attributes("mainlayer", 256, 1, "BYLAYER",2) );
 
-					for( auto item : *p )
+					for( auto item : pa )
 						dxf->writeVertex( *dw, DL_VertexData( item.get_x( ), item.get_y( ), 0 ) );
 
 					dxf->writePolylineEnd( *dw );
-					continue;
-				}
-			}
+				});
 		}
 	}
 	//........................

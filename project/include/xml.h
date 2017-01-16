@@ -279,7 +279,8 @@ public:
 	//Open and Close to maintain file connection
 	bool Open( LPCTSTR filename, LPCXSTR root= _X("Root"), int openMode= modeRead );
 	bool Open( LPCTSTR pstrFilePathName, OpenFlags openMode= modeRead );
-
+	//1/9/2017 Need one of these for SVG and....
+	bool SetDOCTYPE( LPCTSTR str );
 	//This is the xml object so this replaces the root if there is previous data
 	bool ReadString( LPCXSTR pstrInStr );
 	//xml data to string

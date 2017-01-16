@@ -12,10 +12,11 @@
 #include "cnc.h"
 #include "Drawing.h"
 #include "dxf.h"
+#include "sgv.h"
 #include "gear_gen.h"
 // ............................................................
-ObjectSet gear_gen_one( gear_params_t& gp );
-ObjectSet gear_generate( ObjectSet& tooth, gear_params_t& gp );
+ItemSet gear_gen_one( const gear_params_t& gp );
+ItemSet gear_generate( const ItemSet& tooth, const gear_params_t& gp );
 
 #ifndef SHARED_HANDLERS
 #include "Gears.h"
@@ -35,7 +36,7 @@ ObjectSet gear_generate( ObjectSet& tooth, gear_params_t& gp );
 // ..........................................................................
 IMPLEMENT_DYNCREATE( CGearsDoc, CADDoc )
 BEGIN_MESSAGE_MAP( CGearsDoc, CADDoc )
-	ON_COMMAND( ID_FILE_TEST, &CGearsDoc::OnFileTest )
+	ON_COMMAND( ID_FILE_EXPORT, &CGearsDoc::OnFileExport )
 	ON_COMMAND( ID_FILE_G_CODE, &CGearsDoc::OnFileGCode )
 //	ON_NOTIFY( ID_GEAR_PARAM_CHANGED, 1, &CGearsDoc::OnCmdMsg )
 END_MESSAGE_MAP( )
@@ -65,9 +66,17 @@ BOOL CGearsDoc::OnCmdMsg( UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO*
 	return CDocument::OnCmdMsg( nID, nCode, pExtra, pHandlerInfo );
 }
 
+DrawingObects& CGearsDoc::GetExportDrawObject( )
+{
+	export_drawobj.get_set( ).clear( );
+	export_drawobj.push_back( drawobj.get_set( ).front( ) );
+	return export_drawobj;
+}
+
 // ..........................................................................
 CGearsDoc::CGearsDoc( )
-	//:drawobj( layers )
+	:bAnimate( false )
+	,export_drawobj( layers )
 {
 }
 
@@ -99,51 +108,36 @@ void CGearsDoc::test( )
 	ri.get_min_point( ).y-= by;
 	ri.get_max_point( ).y+= by;
 	draw_extents= ri.get_bg_box( );
-	drawobj.get_set( ).back( ).push_back( RectItem( ri ).get_SP( ) );
+//	drawobj.get_set( ).back( ).push_back( RectItem( ri ).get_SP( ) );
 }
 
 // ..........................................................................
 void CGearsDoc::test( pgear_params_t pg )
 {
-	//as if we have loaded/spec'd a gear.......
-
 	drawobj.get_set( ).clear( );
-	ObjectSet visuals( 0 );
-
-	//small hole at center
-	{
-		SP_ArcItem outside_cut( new ArcItem( bg_point( .2, .2 ), bg_point( .2, .2 ), bg_point( 0, 0 ) ) );
-		outside_cut->SetMill( );
-		visuals.push_back( outside_cut );
-	}
-
-	//not used right now
-	gear_params_t params(
-		22,		//tooth count
-		20 * PI / 180,	//presure angle in radians
-		17		//diametrical pitch
-	);
-
-	//create a tooth
+	////create a tooth
 	auto tooth= gear_gen_one( *pg );
 
 	//generate gear from tooth
 	auto gear= gear_generate( tooth, *pg );
+	if( pg->cb )
+		gear.push_back( ArcItem( bg_point( 0, pg->cb ), bg_point( 0, pg->cb ), bg_point( 0, 0 ) ).get_SP( ) );
 	gear.set_id( 1 );
 	drawobj.push_back( gear );
 
 	//copy gear with offset
-	ObjectSet gear2;
-	gear2.set_offset( bg_point( params.pd, 0 ) );
+	ItemSet gear2;//= boost::make_shared< ItemSet >( ItemSet( ) );
+	gear2.set_offset( bg_point( pg->pd, 0 ) );
+	double rotate= pg->tc % 2 ? pg->of + PI / pg->tc : pg->of; 
 	for( const auto& item : gear )
 	{
 		item->SetColor( RGB( 0, 222, 222 ) );
-		auto hold= transform_object( item, bg_point( params.pd, 0 ) );
-		hold= rotate_object( params.of, hold, bg_point( params.pd, 0 ) );
+		auto hold= transform_object( item, bg_point( pg->pd, 0 ) );
+		hold= rotate_object( rotate, hold, bg_point( pg->pd, 0 ) );
 		hold->SetColor( RGB( 255, 0, 0 ) );
 		gear2.push_back( hold );
 	}
-	visuals.insert( gear2.begin( ), gear2.end( ) );
+//	visuals.insert( gear2.begin( ), gear2.end( ) );
 	gear2.set_id( 2 );
 	drawobj.push_back( gear2 );
 
@@ -162,9 +156,10 @@ BOOL CGearsDoc::OnNewDocument( )
 
 #if 1
 	gear_params_t params(
-		12,		//tooth count
-		20 * PI / 180,	//presure angle in radians
-		8		//diametrical pitch
+		12,				//tooth count
+		TO_RAD( 20 ),	//presure angle in radians
+		8,				//diametrical pitch
+		.25				//center bore......
 	);
 	test( &params );
 	test( );
@@ -177,7 +172,8 @@ BOOL CGearsDoc::OnNewDocument( )
 // ..........................................................................
 BOOL CGearsDoc::OnSaveDocument( LPCTSTR lpszPathName )
 {
-	return CDocument::OnSaveDocument( lpszPathName );
+	CADDoc::OnSaveDocument( lpszPathName );
+	return TRUE;
 }
 
 // ..........................................................................
@@ -190,16 +186,40 @@ LRESULT CGearsDoc::OnLayerEnable(WPARAM, LPARAM )
 	return 0;
 }
 
-void CGearsDoc::OnFileTest( )
+// ..........................................................................
+void CGearsDoc::OnFileExport( )
 {
 	if( ! drawobj.size( ) )
 		return;
-	DrawingObects a_gear( layers );
-	a_gear.get_set( ).push_back( ObjectSet( drawobj.get_set( ).front( ) ) );
-	DXF_WriteFile( bfs::path( "test2.dxf"), a_gear );
-	return;
 
+	//DrawingObects a_gear( layers );
+	auto& a_gear= GetExportDrawObject( );//.get_set( ).push_back( ItemSet( drawobj.get_set( ).front( ) ) );
+
+	CFileDialog dlg( TRUE, NULL, NULL,
+		OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT,
+		_T("DXF Files (*.dxf)|*dxf|SVG Files (*.svg)|*svg||"), NULL, 0);
+	dlg.m_ofn.nFilterIndex= get_user_profile( ).export_type;
+
+	int ret= dlg.DoModal( );
+	OPENFILENAME& ofn= dlg.GetOFN( );
+	bfs::path path( ofn.lpstrFile );
+	if( path.extension( ) == L".dxf" || path.extension( ) == L".svg" )
+		path.replace_extension( L"" );
+	get_user_profile( ).export_type= ofn.nFilterIndex;
+	switch( ofn.nFilterIndex )
+	{
+	case 1: //dxf
+		path+= L".dxf";
+		DXF_WriteFile( path, a_gear );
+		break;
+
+	case 2: //svg
+		path+= L".svg";
+		SVG_WriteFile( path, a_gear );
+		break;
+	}
 }
+
 
 // ..........................................................................
 void CGearsDoc::Serialize(CArchive& ar)

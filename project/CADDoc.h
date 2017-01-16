@@ -4,11 +4,11 @@
 DrawingObects
 	owns a object_set_t called primatives 
 
-object_set_t a vector of ObjectSet;
+object_set_t a vector of ItemSet;
 
-ObjectSet
+ItemSet
 	owns asp_obj_vect_t
-	which is a vector of shared pointers SP_BaseItem, to ItemObj
+	which is a vector of shared pointers SP_BaseItem, to BaseItem
 */
 
 class CADDoc : public CDocument
@@ -22,7 +22,7 @@ protected:
 
 	bg_box draw_extents;
 	void test( );
-
+	virtual DrawingObects& GetExportDrawObject( ) { return drawobj; }
 public:
 	DrawingObects& GetDrawingObjects( ) { return drawobj; }
 	const layer_set_t& GetLayers( ) const { return layers; }
@@ -48,7 +48,9 @@ public:
 
 protected:
 	DECLARE_MESSAGE_MAP( )
-	afx_msg void OnFileTest( );
+	afx_msg void OnFileExport( );
 	afx_msg void OnFileGCode( );
 	afx_msg LRESULT OnLayerEnable( WPARAM, LPARAM );
+public:
+	virtual BOOL OnOpenDocument(LPCTSTR lpszPathName);
 };

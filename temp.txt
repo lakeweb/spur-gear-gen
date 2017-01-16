@@ -1,0 +1,83 @@
+On branch master
+Your branch is up-to-date with 'origin/master'.
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+	modified:   .gitignore
+	modified:   project/CADDoc.cpp
+	modified:   project/CADDoc.h
+	modified:   project/CADView.cpp
+	modified:   project/CADView.h
+	modified:   project/Drawing.cpp
+	modified:   project/Drawing.h
+	modified:   project/FileView.cpp
+	modified:   project/GearDialog.cpp
+	modified:   project/GearDialog.h
+	modified:   project/Gears.cpp
+	modified:   project/Gears.h
+	modified:   project/Gears.rc
+	modified:   project/Gears.vcxproj
+	modified:   project/Gears.vcxproj.filters
+	modified:   project/GearsDoc.cpp
+	modified:   project/GearsDoc.h
+	modified:   project/GearsView.cpp
+	modified:   project/GearsView.h
+	modified:   project/Geometry.cpp
+	modified:   project/Objects.cpp
+	modified:   project/Objects.h
+	modified:   project/ReadMe.txt
+	modified:   project/Resource.h
+	modified:   project/clean.ps1
+	modified:   project/dxf.cpp
+	modified:   project/dxflib/dxflib-3.7.5-src/dfxlib_vc/dfxlib_vc.vcxproj
+	modified:   project/dxflib/dxflib-3.7.5-src/src/dl_dxf.cpp
+	modified:   project/dxflib/dxflib-3.7.5-src/src/dl_writer_ascii.cpp
+	modified:   project/gear_gen.cpp
+	modified:   project/gear_gen.h
+	modified:   project/include/globals.h
+	modified:   project/include/typeswitch.h
+	modified:   project/include/xml.h
+	modified:   project/readme.txt
+	modified:   project/shared.h
+	modified:   project/stdafx.h
+	modified:   project/xml/dev/dev.vcxproj
+	modified:   project/xml/dev/devView.cpp
+	modified:   project/xml/dev/stdafx.h
+	modified:   project/xml/dev/test.xml
+	modified:   project/xml/hexml/copy.bat
+	modified:   project/xml/hexml/copyd.bat
+	modified:   project/xml/hexml/stdafx.h
+	modified:   project/xml/hexml/xml.cpp
+	modified:   project/xml/tinyxml/StdAfx.h
+	modified:   project/xml/tinyxml/tinyxpath_conf.h
+	modified:   project/xml/xml.sln
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+	project/.dxf
+	project/About.cpp
+	project/About.h
+	project/AppData/
+	project/CADParse.cpp
+	project/CADParse.h
+	project/CADParseID.h
+	project/Globals.cpp
+	project/ProgramFiles/
+	project/SpiritParsers.h
+	project/SpiritParsersBridge.cpp
+	project/app_share.cpp
+	project/app_share.h
+	project/docs/reg_names.txt
+	project/dxflib/dxflib-3.7.5-src/dfxlib_vc/post_build.bat
+	project/include/AStrType.h
+	project/sgv.cpp
+	project/sgv.h
+	project/spirit.cpp
+	project/spirit.h
+	project/test.dxf
+	project/test.svg
+	temp.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")

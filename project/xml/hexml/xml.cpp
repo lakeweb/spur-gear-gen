@@ -693,6 +693,16 @@ bool CXML::Close( )
 	return documentNode->SaveFile( sFileName.c_str( ) );
 }
 
+// ................................................................
+bool CXML::SetDOCTYPE( LPCTSTR str )
+{
+	TiXmlUnknown text;
+	text.SetValue( uni_t0_utf8( str ) );
+	documentNode->InsertAfterChild( documentNode->firstChild, text );
+
+	return true;
+}
+
 bool CXML::DeleteCurrentNode( )
 {
 	if( currentNode )
@@ -767,8 +777,10 @@ public:
 			int sub, var;
 			TIXML_STRING str;
 			as_action_store.v_get( i, (int&)x_const, sub, var, str );
+#ifdef TINYXPATH_DEBUG
 			printf( "test %d action %s %d %d %s\n", i,
 				TinyXPath::cp_disp_construct( x_const ), sub, var, str.c_str( ) );
+#endif
 		}
 		printf( "\r\n" );
 		
@@ -799,9 +811,9 @@ using namespace TinyXPath;
 
 		// Decode XPath expression
 		v_evaluate ();
-
+#ifdef TINYXPATH_DEBUG
 		xs_stack.v_dump( );
-
+#endif
 		// Compute result
 		v_execute_stack ();
 

@@ -54,7 +54,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(BOOST_ROOT);./include</AdditionalIncludeDirectories>
-      <AdditionalOptions>-Zm255 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>-Zm255 -MP %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -83,7 +83,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(BOOST_ROOT);./include</AdditionalIncludeDirectories>
-      <AdditionalOptions>-Zm255 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>-Zm255 -MP %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -139,6 +139,8 @@
     <ClInclude Include="About.h" />
     <ClInclude Include="app_share.h" />
     <ClInclude Include="CADDoc.h" />
+    <ClInclude Include="CADParse.h" />
+    <ClInclude Include="CADParseID.h" />
     <ClInclude Include="CADView.h" />
     <ClInclude Include="cnc.h" />
     <ClInclude Include="Drawing.h" />
@@ -167,17 +169,23 @@
     <ClInclude Include="PropertiesWnd.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Scroller.h" />
+    <ClInclude Include="sgv.h" />
     <ClInclude Include="shared.h" />
+    <ClInclude Include="spirit.h" />
+    <ClInclude Include="SpiritParsers.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="About.cpp" />
+    <ClCompile Include="app_share.cpp" />
     <ClCompile Include="CADDoc.cpp" />
+    <ClCompile Include="CADParse.cpp" />
     <ClCompile Include="CADView.cpp" />
     <ClCompile Include="cnc.cpp">
       <RuntimeLibrary Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
+    <ClCompile Include="debug.cpp" />
     <ClCompile Include="Drawing.cpp">
       <RuntimeLibrary Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
@@ -233,10 +241,25 @@
     <ClCompile Include="Scroller.cpp">
       <RuntimeLibrary Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
+    <ClCompile Include="sgv.cpp" />
     <ClCompile Include="source\ctrlext.cpp">
       <RuntimeLibrary Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <ClCompile Include="source\HEWinApp.cpp" />
+    <ClCompile Include="spirit.cpp">
+      <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)spirit.pch</PrecompiledHeaderOutputFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">spirit.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)spirit.pch</PrecompiledHeaderOutputFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">spirit.h</PrecompiledHeaderFile>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="SpiritParsersBridge.cpp">
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">spirit.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)spirit.pch</PrecompiledHeaderOutputFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">spirit.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)spirit.pch</PrecompiledHeaderOutputFile>
+    </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

@@ -44,3 +44,5 @@
 
 #include <string>
 #include <map>
+
+#include <std_share.h>

@@ -10,7 +10,7 @@
 
 // ..........................................................................
 // creates one tooth of the gear using the world origin....
-ObjectSet gear_gen_one( gear_params_t& gp )
+ItemSet gear_gen_one( const gear_params_t& gp )
 {
 	//most calcs are done with radii
 	double root_radius= gp.rd / 2;
@@ -39,7 +39,7 @@ ObjectSet gear_gen_one( gear_params_t& gp )
 	double Ac= t - atan( t ); // angle of involute arc, at limit
 
 //the output object
-	ObjectSet out;
+	ItemSet out;//= boost::make_shared< ItemSet >( ItemSet( ) );
 	//angle between teeth
 	double ang_tooth=	2 * PI / gp.tc;
 	double ang_half=	PI / gp.tc - gp.of;
@@ -167,17 +167,17 @@ ObjectSet gear_gen_one( gear_params_t& gp )
 
 // ..........................................................................
 //copy and rotate a tooth to create a whole gear....
-ObjectSet gear_generate( ObjectSet& tooth, gear_params_t& gp )
+ItemSet gear_generate( const ItemSet& tooth, const gear_params_t& gp )
 {
 	double ang_tooth=	2 * PI / gp.tc;
-	ObjectSet out;
+	ItemSet out;
 
 	//fisrt tooth, just copy
 	out= tooth;
 	for( size_t step= 1; step < gp.tc; ++step )
 	{
 		double polar= 2 * PI * ( (double)step / gp.tc );
-		ObjectSet next;
+		ItemSet next;
 		for( auto item : tooth )
 			next.push_back( rotate_object( polar, item ) );
 		out.insert( next.begin( ), next.end( ) );

@@ -10,10 +10,11 @@ typedef struct gear_params
 {
 
 	//only three parameters to define a gear; angle in radians
-	gear_params( size_t tooth_count, double presure_anglee, double diametrical_pitch )
+	gear_params( size_t tooth_count, double presure_anglee, double diametrical_pitch, double center_bore= 0.0 )
 		:tc( tooth_count )
 		,pa( presure_anglee )
 		,dp( diametrical_pitch )
+		,cb( center_bore )
 		,pd( (double)tooth_count / diametrical_pitch )
 		,rd( ( tooth_count - 2 ) / diametrical_pitch )
 		,ad( 1 / diametrical_pitch )
@@ -29,6 +30,7 @@ typedef struct gear_params
 	size_t tc;	//number of teeth
 	double pa;	//presure angle, input as radians
 	double dp;	//diametrical pitch, pitch circle
+	double cb;	//center bore
 
 	//calculated from given
 	double pd; //pitch circle
